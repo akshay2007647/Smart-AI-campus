@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Campus Entry Monitoring | Smart AI Campus</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: #080b18;
+    color: white;
+}
+
+.sidebar {
+    width: 255px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 25px 18px;
+    background: #101429;
+    border-right: 1px solid #252c49;
+    overflow-y: auto;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 800;
+    color: #a78bfa;
+    margin-bottom: 35px;
+}
+
+.logo span {
+    color: white;
+}
+
+.section-title {
+    color: #737d9d;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin: 25px 12px 12px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 14px;
+    margin: 5px 0;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #aab2cc;
+    font-size: 13px;
+    transition: .3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: linear-gradient(90deg, #6d45d9, #4930a3);
+    color: white;
+}
+
+.main {
+    margin-left: 255px;
+    padding: 30px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.topbar h1 {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.topbar p {
+    color: #929bb8;
+    font-size: 12px;
+    margin-top: 7px;
+}
+
+.admin {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #151b32;
+    border: 1px solid #292f4d;
+    padding: 10px 14px;
+    border-radius: 12px;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: linear-gradient(135deg,#8b5cf6,#4f46e5);
+    font-weight: 800;
+}
+
+.admin strong {
+    font-size: 12px;
+}
+
+.admin small {
+    display: block;
+    color: #929bb8;
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+.hero {
+    padding: 27px;
+    border-radius: 18px;
+    background: linear-gradient(110deg,#332069,#1b2050,#151b38);
+    border: 1px solid #55429c;
+    margin-bottom: 23px;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero h2 {
+    font-size: 21px;
+    margin-bottom: 9px;
+}
+
+.hero p {
+    color: #d0c8f4;
+    font-size: 12px;
+    line-height: 1.7;
+    max-width: 600px;
+}
+
+.live-indicator {
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #86efac;
+    font-size: 11px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: #4ade80;
+    border-radius: 50%;
+    box-shadow: 0 0 12px #4ade80;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 16px;
+    margin-bottom: 23px;
+}
+
+.stat-card {
+    background: #11172d;
+    border: 1px solid #252c49;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.stat-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    background: #6844c52b;
+    border-radius: 12px;
+    font-size: 20px;
+}
+
+.stat-card p {
+    color: #929bb8;
+    font-size: 11px;
+    margin-top: 15px;
+}
+
+.stat-card h2 {
+    font-size: 27px;
+    margin-top: 7px;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.panel {
+    background: #11172d;
+    border: 1px solid #252c49;
+    border-radius: 17px;
+    padding: 22px;
+    min-width: 0;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+}
+
+.panel-header h3 {
+    font-size: 14px;
+}
+
+.panel-header span {
+    color: #929bb8;
+    font-size: 10px;
+}
+
+.gate-grid {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    gap: 13px;
+}
+
+.gate {
+    padding: 17px;
+    background: #0c1227;
+    border: 1px solid #2b3554;
+    border-radius: 13px;
+}
+
+.gate-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.gate-icon {
+    font-size: 22px;
+}
+
+.gate-status {
+    color: #6ee7b7;
+    background: #174c3b;
+    padding: 5px 8px;
+    border-radius: 20px;
+    font-size: 9px;
+}
+
+.gate h4 {
+    font-size: 12px;
+    margin-top: 16px;
+}
+
+.gate p {
+    font-size: 10px;
+    color: #929bb8;
+    margin-top: 6px;
+}
+
+.method {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 16px 0;
+    border-bottom: 1px solid #252c49;
+}
+
+.method:last-child {
+    border-bottom: none;
+}
+
+.method-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: #6844c52b;
+    font-size: 19px;
+}
+
+.method strong {
+    font-size: 12px;
+}
+
+.method p {
+    color: #929bb8;
+    font-size: 10px;
+    margin-top: 5px;
+}
+
+.method b {
+    margin-left: auto;
+    font-size: 15px;
+    color: #c4b5fd;
+}
+
+.toolbar {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+}
+
+.toolbar input,
+.toolbar select {
+    background: #0b1023;
+    border: 1px solid #303957;
+    color: white;
+    padding: 12px 13px;
+    border-radius: 9px;
+    outline: none;
+    font-size: 11px;
+}
+
+.toolbar input {
+    flex: 1;
+    min-width: 180px;
+}
+
+.toolbar select {
+    min-width: 150px;
+}
+
+.toolbar option {
+    background: #11172d;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    min-width: 650px;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+    padding: 13px 10px;
+    color: #8993b3;
+    font-size: 10px;
+    border-bottom: 1px solid #2a3150;
+}
+
+td {
+    padding: 15px 10px;
+    font-size: 11px;
+    color: #d6dbee;
+    border-bottom: 1px solid #222943;
+}
+
+tr:hover td {
+    background: #171d37;
+}
+
+.badge {
+    padding: 6px 9px;
+    border-radius: 20px;
+    font-size: 9px;
+}
+
+.entry {
+    background: #174c3b;
+    color: #6ee7b7;
+}
+
+.exit {
+    background: #4b2934;
+    color: #fda4af;
+}
+
+.qr {
+    color: #93c5fd;
+}
+
+.nfc {
+    color: #c4b5fd;
+}
+
+.empty {
+    text-align: center;
+    padding: 30px;
+    color: #929bb8;
+}
+
+.demo-note {
+    margin-top: 18px;
+    padding: 13px;
+    background: #30245b55;
+    border: 1px solid #514080;
+    border-radius: 10px;
+    color: #c4b5fd;
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+.footer {
+    text-align: center;
+    color: #626c8d;
+    font-size: 10px;
+    padding: 30px 0;
+}
+
+@media(max-width:1050px) {
+    .stats {
+        grid-template-columns: repeat(2,1fr);
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:850px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 18px;
+    }
+}
+
+@media(max-width:500px) {
+    .stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .gate-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar h1 {
+        font-size: 19px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">✦ SMART<span style="color:white">CAMPUS</span></div>
+
+    <div class="section-title">ADMINISTRATION</div>
+
+    <a href="admin-dashboard.html" class="nav-link">▦ Admin Dashboard</a>
+    <a href="student-management.html" class="nav-link">👥 Student Management</a>
+    <a href="entry-monitoring.html" class="nav-link active">🚪 Entry Monitoring</a>
+    <a href="reports.html" class="nav-link">📊 Reports & Analytics</a>
+
+    <div class="section-title">CAMPUS MANAGEMENT</div>
+
+    <a href="attendance.html" class="nav-link">📅 Attendance</a>
+    <a href="classroom.html" class="nav-link">🏫 Classrooms</a>
+    <a href="cafeteria.html" class="nav-link">🍽️ Cafeteria</a>
+    <a href="notifications.html" class="nav-link">🔔 Notifications</a>
+
+    <div style="margin-top:30px;border-top:1px solid #252c49;padding-top:15px">
+        <a href="../index.html" class="nav-link">🏠 Back to Home</a>
+        <a href="#" class="nav-link" onclick="logout()">↪ Logout</a>
+    </div>
+
+</aside>
+
+<main class="main">
+
+    <div class="topbar">
+        <div>
+            <h1>Campus Entry Monitoring</h1>
+            <p>Monitor digital campus entry and exit activities.</p>
+        </div>
+
+        <div class="admin">
+            <div class="avatar">A</div>
+            <div>
+                <strong>Campus Admin</strong>
+                <small>Administrator</small>
+            </div>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="live-indicator">
+            <span class="dot"></span>
+            DEMO MONITORING
+        </div>
+
+        <h2>Smart Campus Gate Control 🚪</h2>
+
+        <p>
+            A central monitoring interface for QR-based student identification
+            and NFC-enabled campus access. View simulated gate activity,
+            entry records and student movement at campus access points.
+        </p>
+    </section>
+
+    <section class="stats">
+
+        <div class="stat-card">
+            <div class="stat-icon">🚶</div>
+            <p>Total Entries Today</p>
+            <h2 id="totalEntries">248</h2>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🏫</div>
+            <p>Students Inside Campus</p>
+            <h2 id="insideCount">186</h2>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">📤</div>
+            <p>Recorded Exits</p>
+            <h2 id="exitCount">62</h2>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🛡️</div>
+            <p>Active Gate Points</p>
+            <h2>04</h2>
+        </div>
+
+    </section>
+
+    <section class="content-grid">
+
+        <div class="panel">
+
+            <div class="panel-header">
+                <h3>Campus Gate Status</h3>
+                <span>Illustrative gate overview</span>
+            </div>
+
+            <div class="gate-grid">
+
+                <div class="gate">
+                    <div class="gate-top">
+                        <span class="gate-icon">🚪</span>
+                        <span class="gate-status">OPERATIONAL</span>
+                    </div>
+                    <h4>Main Entrance</h4>
+                    <p>QR + NFC access point</p>
+                </div>
+
+                <div class="gate">
+                    <div class="gate-top">
+                        <span class="gate-icon">🚪</span>
+                        <span class="gate-status">OPERATIONAL</span>
+                    </div>
+                    <h4>North Entrance</h4>
+                    <p>QR access point</p>
+                </div>
+
+                <div class="gate">
+                    <div class="gate-top">
+                        <span class="gate-icon">🚪</span>
+                        <span class="gate-status">OPERATIONAL</span>
+                    </div>
+                    <h4>Library Entrance</h4>
+                    <p>NFC access point</p>
+                </div>
+
+                <div class="gate">
+                    <div class="gate-top">
+                        <span class="gate-icon">🚪</span>
+                        <span class="gate-status">OPERATIONAL</span>
+                    </div>
+                    <h4>Hostel Entrance</h4>
+                    <p>QR + NFC access point</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="panel">
+
+            <div class="panel-header">
+                <h3>Entry Method Overview</h3>
+                <span>Demo counts</span>
+            </div>
+
+            <div class="method">
+                <div class="method-icon">▦</div>
+                <div>
+                    <strong>QR Code Scanning</strong>
+                    <p>Digital student ID verification</p>
+                </div>
+                <b>156</b>
+            </div>
+
+            <div class="method">
+                <div class="method-icon">📡</div>
+                <div>
+                    <strong>NFC Authentication</strong>
+                    <p>Contactless ID verification</p>
+                </div>
+                <b>92</b>
+            </div>
+
+            <div class="demo-note">
+                Privacy concept: NFC access is intended to work only at
+                authorised campus readers. This dashboard does not track
+                students outside campus.
+            </div>
+
+        </div>
+
+    </section>
+
+    <section class="panel">
+
+        <div class="panel-header">
+            <h3>Recent Entry & Exit Logs</h3>
+            <span id="logCount">Sample records</span>
+        </div>
+
+        <div class="toolbar">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search student name or ID..."
+                oninput="renderLogs()"
+            >
+
+            <select id="methodFilter" onchange="renderLogs()">
+                <option value="all">All Methods</option>
+                <option value="QR">QR Code</option>
+                <option value="NFC">NFC</option>
+            </select>
+
+            <select id="typeFilter" onchange="renderLogs()">
+                <option value="all">All Activities</option>
+                <option value="Entry">Entry</option>
+                <option value="Exit">Exit</option>
+            </select>
+
+        </div>
+
+        <div class="table-wrap">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>STUDENT NAME</th>
+                        <th>STUDENT ID</th>
+                        <th>TIME</th>
+                        <th>GATE</th>
+                        <th>METHOD</th>
+                        <th>ACTIVITY</th>
+                    </tr>
+                </thead>
+
+                <tbody id="logTable"></tbody>
+            </table>
+
+        </div>
+
+        <div class="demo-note">
+            Demo mode: the activity records below are illustrative sample data.
+            No physical gate, QR scanner or NFC reader is connected yet.
+        </div>
+
+    </section>
+
+    <div class="footer">
+        SMART AI CAMPUS © 2026 · CAMPUS SECURITY MONITORING
+    </div>
+
+</main>
+
+<script>
+
+const logs = [
+    {name:"Arun Kumar",id:"REC2026001",time:"08:15 AM",gate:"Main Entrance",method:"QR",type:"Entry"},
+    {name:"Priya Sharma",id:"REC2026002",time:"08:22 AM",gate:"North Entrance",method:"NFC",type:"Entry"},
+    {name:"Rahul Raj",id:"REC2026003",time:"08:35 AM",gate:"Main Entrance",method:"QR",type:"Entry"},
+    {name:"Divya S",id:"REC2026004",time:"09:10 AM",gate:"Library Entrance",method:"NFC",type:"Entry"},
+    {name:"Karthik M",id:"REC2026005",time:"09:30 AM",gate:"Main Entrance",method:"QR",type:"Entry"},
+    {name:"Sneha R",id:"REC2026006",time:"10:05 AM",gate:"Hostel Entrance",method:"NFC",type:"Entry"},
+    {name:"Vishal P",id:"REC2026007",time:"12:15 PM",gate:"Main Entrance",method:"QR",type:"Exit"},
+    {name:"Meena K",id:"REC2026008",time:"01:20 PM",gate:"North Entrance",method:"NFC",type:"Exit"},
+    {name:"Ajay Kumar",id:"REC2026009",time:"02:05 PM",gate:"Main Entrance",method:"QR",type:"Entry"},
+    {name:"Nisha S",id:"REC2026010",time:"03:10 PM",gate:"Library Entrance",method:"NFC",type:"Entry"}
+];
+
+function renderLogs() {
+
+    const search = document
+        .getElementById("searchInput")
+        .value.toLowerCase();
+
+    const method = document.getElementById("methodFilter").value;
+    const type = document.getElementById("typeFilter").value;
+
+    const filtered = logs.filter(log => {
+
+        const matchesSearch =
+            log.name.toLowerCase().includes(search) ||
+            log.id.toLowerCase().includes(search);
+
+        const matchesMethod =
+            method === "all" || log.method === method;
+
+        const matchesType =
+            type === "all" || log.type === type;
+
+        return matchesSearch && matchesMethod && matchesType;
+    });
+
+    const table = document.getElementById("logTable");
+
+    document.getElementById("logCount").textContent =
+        filtered.length + " records shown";
+
+    if (filtered.length === 0) {
+        table.innerHTML = `
+            <tr>
+                <td colspan="6" class="empty">
+                    No matching entry records found.
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    table.innerHTML = filtered.map(log => `
+        <tr>
+            <td>${escapeHTML(log.name)}</td>
+            <td>${escapeHTML(log.id)}</td>
+            <td>${escapeHTML(log.time)}</td>
+            <td>${escapeHTML(log.gate)}</td>
+            <td>
+                <span class="${log.method === "QR" ? "qr" : "nfc"}">
+                    ${log.method === "QR" ? "▦ QR Code" : "📡 NFC"}
+                </span>
+            </td>
+            <td>
+                <span class="badge ${log.type === "Entry" ? "entry" : "exit"}">
+                    ${log.type}
+                </span>
+            </td>
+        </tr>
+    `).join("");
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+function logout() {
+    if (confirm("Are you sure you want to logout?")) {
+        sessionStorage.clear();
+        location.href = "../index.html";
+    }
+}
+
+renderLogs();
+
+</script>
+
+</body>
+</html>

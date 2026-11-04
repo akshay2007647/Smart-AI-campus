@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reports & Analytics | Smart AI Campus</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Inter,sans-serif;background:#090d1c;color:#f5f6ff;min-height:100vh}
+:root{--purple:#9065ff;--muted:#929bb5;--panel:#141a30;--border:#252d49}
+.sidebar{position:fixed;left:0;top:0;width:250px;height:100vh;background:#101529;border-right:1px solid var(--border);padding:25px 17px;overflow-y:auto}
+.brand{font-size:20px;font-weight:800;margin-bottom:38px;padding-left:10px}
+.brand span{color:#a98aff}
+.menu-title{font-size:10px;color:#69738f;letter-spacing:2px;margin:25px 10px 12px}
+.nav a{display:flex;align-items:center;gap:13px;text-decoration:none;color:#aab2ca;padding:12px;border-radius:10px;margin:5px 0;font-size:13px}
+.nav a:hover,.nav a.active{background:linear-gradient(100deg,#7149d9,#49328c);color:white}
+.logout{position:absolute;bottom:25px;left:17px;right:17px}
+.logout button{width:100%;padding:12px;border:1px solid #3a3159;background:#211a38;color:#d8caff;border-radius:10px;cursor:pointer}
+.main{margin-left:250px;padding:32px;max-width:1700px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;gap:15px;flex-wrap:wrap}
+h1{font-size:27px;margin-bottom:7px}
+.subtitle{color:var(--muted);font-size:13px}
+.top-actions{display:flex;gap:10px;align-items:center}
+select,button{font-family:inherit}
+.filter{background:#171e35;color:white;border:1px solid var(--border);padding:11px 13px;border-radius:9px}
+.btn{border:0;border-radius:9px;padding:12px 16px;background:linear-gradient(110deg,#9365ff,#6542d0);color:white;font-weight:700;cursor:pointer}
+.btn:hover{opacity:.88}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:17px;margin-bottom:22px}
+.card{background:linear-gradient(145deg,#171e35,#11172a);border:1px solid var(--border);border-radius:15px;padding:21px}
+.stat-top{display:flex;justify-content:space-between;align-items:center}
+.stat-icon{width:42px;height:42px;border-radius:12px;background:#30245a;display:grid;place-items:center;font-size:20px}
+.stat-label{color:var(--muted);font-size:12px;margin-top:15px}
+.stat-value{font-size:27px;font-weight:800;margin-top:7px}
+.stat-change{font-size:11px;color:#62d9a0;margin-top:8px}
+.grid{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;margin-bottom:18px}
+.grid.equal{grid-template-columns:1fr 1fr}
+.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:10px}
+.card-head h3{font-size:15px}
+.card-head span{color:var(--muted);font-size:11px}
+.chart-wrap{height:260px;position:relative}
+.chart-wrap.small{height:235px}
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:460px}
+th{text-align:left;color:#8791ae;font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:13px 10px;border-bottom:1px solid var(--border)}
+td{padding:15px 10px;border-bottom:1px solid #222a43;font-size:12px;color:#d9def0}
+.badge{padding:5px 9px;border-radius:20px;background:#193d37;color:#70e0b1;font-size:10px}
+.progress{height:6px;background:#30364b;border-radius:10px;margin-top:7px;overflow:hidden}
+.progress div{height:100%;background:linear-gradient(90deg,#7b5aff,#b28aff);border-radius:10px}
+.report-note{color:#8c96b1;font-size:11px;line-height:1.6;margin-top:17px}
+.quick-reports{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.report-box{padding:17px;border:1px solid var(--border);border-radius:12px;background:#171e35}
+.report-box h4{font-size:13px;margin-bottom:8px}
+.report-box p{font-size:11px;color:var(--muted);line-height:1.6;margin-bottom:14px}
+.report-box button{background:#292044;border:1px solid #49377a;color:#d7c9ff;padding:9px 12px;border-radius:8px;cursor:pointer;font-size:11px}
+.footer{text-align:center;color:#69738f;font-size:11px;margin-top:30px;padding:15px}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(2,1fr)}.grid,.grid.equal{grid-template-columns:1fr}}
+@media(max-width:750px){.sidebar{position:relative;width:100%;height:auto}.logout{position:static;margin-top:20px}.main{margin-left:0;padding:20px}.quick-reports{grid-template-columns:1fr}.topbar{align-items:flex-start}}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+    <div class="brand">SMART <span>AI</span> CAMPUS</div>
+
+    <div class="menu-title">MAIN MENU</div>
+    <nav class="nav">
+        <a href="admin-dashboard.html">🏠 Admin Dashboard</a>
+        <a href="student-management.html">👨‍🎓 Student Management</a>
+        <a href="entry-monitoring.html">🚪 Entry Monitoring</a>
+        <a href="notifications.html">🔔 Notifications</a>
+        <a class="active" href="reports.html">📊 Reports & Analytics</a>
+    </nav>
+
+    <div class="menu-title">STUDENT MODULES</div>
+    <nav class="nav">
+        <a href="dashboard.html">📱 Student Dashboard</a>
+        <a href="attendance.html">📅 Attendance</a>
+        <a href="classroom.html">🏫 Classroom</a>
+        <a href="cafeteria.html">🍔 Cafeteria</a>
+        <a href="navigation.html">🗺️ Navigation</a>
+    </nav>
+
+    <div class="logout">
+        <button onclick="logout()">↩ Logout</button>
+    </div>
+</aside>
+
+<main class="main">
+
+    <header class="topbar">
+        <div>
+            <h1>Reports & Analytics 📊</h1>
+            <p class="subtitle">Monitor campus performance through intelligent insights.</p>
+        </div>
+
+        <div class="top-actions">
+            <select class="filter" id="period" onchange="updatePeriod()">
+                <option value="7">Last 7 days</option>
+                <option value="30" selected>Last 30 days</option>
+                <option value="90">Last 90 days</option>
+            </select>
+            <button class="btn" onclick="exportReport()">⬇ Export CSV</button>
+        </div>
+    </header>
+
+    <section class="stats">
+        <div class="card">
+            <div class="stat-top"><span>👨‍🎓</span><span class="stat-icon">🎓</span></div>
+            <div class="stat-label">Total Students</div>
+            <div class="stat-value" id="totalStudents">1,250</div>
+            <div class="stat-change">↑ Sample campus data</div>
+        </div>
+
+        <div class="card">
+            <div class="stat-top"><span>📅</span><span class="stat-icon">📈</span></div>
+            <div class="stat-label">Average Attendance</div>
+            <div class="stat-value">87.5%</div>
+            <div class="stat-change">↑ Sample attendance data</div>
+        </div>
+
+        <div class="card">
+            <div class="stat-top"><span>🚪</span><span class="stat-icon">🔐</span></div>
+            <div class="stat-label">Campus Entries</div>
+            <div class="stat-value">7,842</div>
+            <div class="stat-change">↑ Sample entry data</div>
+        </div>
+
+        <div class="card">
+            <div class="stat-top"><span>🍔</span><span class="stat-icon">💳</span></div>
+            <div class="stat-label">Cafeteria Revenue</div>
+            <div class="stat-value">₹48,650</div>
+            <div class="stat-change">↑ Sample revenue data</div>
+        </div>
+    </section>
+
+    <section class="grid">
+        <div class="card">
+            <div class="card-head">
+                <h3>Attendance Overview</h3>
+                <span>Monthly performance</span>
+            </div>
+            <div class="chart-wrap"><canvas id="attendanceChart"></canvas></div>
+        </div>
+
+        <div class="card">
+            <div class="card-head">
+                <h3>Department Distribution</h3>
+                <span>Students by department</span>
+            </div>
+            <div class="chart-wrap"><canvas id="departmentChart"></canvas></div>
+        </div>
+    </section>
+
+    <section class="grid equal">
+        <div class="card">
+            <div class="card-head">
+                <h3>Campus Entry Analytics</h3>
+                <span>Entry methods</span>
+            </div>
+            <div class="chart-wrap small"><canvas id="entryChart"></canvas></div>
+        </div>
+
+        <div class="card">
+            <div class="card-head">
+                <h3>Cafeteria Revenue</h3>
+                <span>Weekly sales · ₹</span>
+            </div>
+            <div class="chart-wrap small"><canvas id="revenueChart"></canvas></div>
+        </div>
+    </section>
+
+    <section class="card" style="margin-bottom:18px">
+        <div class="card-head">
+            <h3>Department Performance</h3>
+            <span>Sample attendance figures</span>
+        </div>
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Department</th>
+                        <th>Students</th>
+                        <th>Attendance</th>
+                        <th>Performance</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="departmentTable">
+                    <tr>
+                        <td>Computer Science</td><td>420</td><td>91%</td>
+                        <td><div class="progress"><div style="width:91%"></div></div></td><td><span class="badge">Good</span></td>
+                    </tr>
+                    <tr>
+                        <td>Cyber Security</td><td>250</td><td>88%</td>
+                        <td><div class="progress"><div style="width:88%"></div></div></td><td><span class="badge">Good</span></td>
+                    </tr>
+                    <tr>
+                        <td>Information Technology</td><td>280</td><td>85%</td>
+                        <td><div class="progress"><div style="width:85%"></div></div></td><td><span class="badge">Good</span></td>
+                    </tr>
+                    <tr>
+                        <td>Electronics</td><td>180</td><td>82%</td>
+                        <td><div class="progress"><div style="width:82%"></div></div></td><td><span class="badge">Good</span></td>
+                    </tr>
+                    <tr>
+                        <td>Mechanical</td><td>120</td><td>79%</td>
+                        <td><div class="progress"><div style="width:79%"></div></div></td><td><span class="badge">Average</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="report-note">Department figures are illustrative demo data and are not official REC statistics.</p>
+    </section>
+
+    <section class="card">
+        <div class="card-head">
+            <h3>Quick Reports</h3>
+            <span>Export individual reports</span>
+        </div>
+
+        <div class="quick-reports">
+            <div class="report-box">
+                <h4>📅 Attendance Report</h4>
+                <p>View sample student attendance and monthly performance.</p>
+                <button onclick="downloadCSV('attendance')">Download Report ↗</button>
+            </div>
+
+            <div class="report-box">
+                <h4>🚪 Entry Report</h4>
+                <p>Review sample QR and NFC campus entry statistics.</p>
+                <button onclick="downloadCSV('entry')">Download Report ↗</button>
+            </div>
+
+            <div class="report-box">
+                <h4>🍔 Cafeteria Report</h4>
+                <p>Review sample cafeteria sales and revenue information.</p>
+                <button onclick="downloadCSV('cafeteria')">Download Report ↗</button>
+            </div>
+        </div>
+    </section>
+
+    <div class="footer">SMART AI CAMPUS · REPORTS & ANALYTICS · DEMO VERSION</div>
+</main>
+
+<script>
+const chartText = '#aab3cc';
+const gridColor = 'rgba(150,160,190,0.12)';
+
+Chart.defaults.color = chartText;
+Chart.defaults.font.family = 'Inter';
+
+const attendanceChart = new Chart(document.getElementById('attendanceChart'), {
+    type: 'line',
+    data: {
+        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov'],
+        datasets: [{
+            label: 'Attendance %',
+            data: [78,82,80,85,83,87,89,84,88,86,91],
+            borderColor: '#9b75ff',
+            backgroundColor: 'rgba(155,117,255,0.15)',
+            fill: true,
+            tension: 0.4,
+            pointRadius: 3
+        }]
+    },
+    options: {
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{
+            y:{min:60,max:100,grid:{color:gridColor}},
+            x:{grid:{display:false}}
+        }
+    }
+});
+
+new Chart(document.getElementById('departmentChart'), {
+    type:'doughnut',
+    data:{
+        labels:['CSE','Cyber Security','IT','ECE','Mechanical'],
+        datasets:[{
+            data:[420,250,280,180,120],
+            backgroundColor:['#9268ff','#5c9cff','#37cdb5','#f5b85c','#e779ae'],
+            borderWidth:0
+        }]
+    },
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{legend:{position:'bottom',labels:{padding:15,usePointStyle:true}}}
+    }
+});
+
+new Chart(document.getElementById('entryChart'), {
+    type:'bar',
+    data:{
+        labels:['QR Code','NFC','Manual'],
+        datasets:[{
+            label:'Entries',
+            data:[520,310,65],
+            backgroundColor:['#9065ff','#43cbb5','#e8ad5b'],
+            borderRadius:7
+        }]
+    },
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{
+            y:{beginAtZero:true,grid:{color:gridColor}},
+            x:{grid:{display:false}}
+        }
+    }
+});
+
+new Chart(document.getElementById('revenueChart'), {
+    type:'bar',
+    data:{
+        labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+        datasets:[{
+            label:'Revenue ₹',
+            data:[5200,6800,5900,7500,8200,9100,5950],
+            backgroundColor:'#8d68f5',
+            borderRadius:7
+        }]
+    },
+    options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        plugins:{legend:{display:false}},
+        scales:{
+            y:{beginAtZero:true,grid:{color:gridColor}},
+            x:{grid:{display:false}}
+        }
+    }
+});
+
+function downloadCSV(type) {
+    let rows = [];
+
+    if(type === 'attendance') {
+        rows = [
+            ['Department','Students','Attendance'],
+            ['Computer Science',420,'91%'],
+            ['Cyber Security',250,'88%'],
+            ['Information Technology',280,'85%'],
+            ['Electronics',180,'82%'],
+            ['Mechanical',120,'79%']
+        ];
+    } else if(type === 'entry') {
+        rows = [
+            ['Entry Method','Total Entries'],
+            ['QR Code',520],
+            ['NFC',310],
+            ['Manual',65]
+        ];
+    } else {
+        rows = [
+            ['Day','Revenue'],
+            ['Monday',5200],
+            ['Tuesday',6800],
+            ['Wednesday',5900],
+            ['Thursday',7500],
+            ['Friday',8200],
+            ['Saturday',9100],
+            ['Sunday',5950]
+        ];
+    }
+
+    const csv = rows.map(row => row.join(',')).join('\n');
+    const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = type + '-report.csv';
+    link.click();
+    URL.revokeObjectURL(url);
+}
+
+function exportReport() {
+    const rows = [
+        ['Smart AI Campus - Summary Report'],
+        ['Metric','Value'],
+        ['Total Students','1250'],
+        ['Average Attendance','87.5%'],
+        ['Campus Entries','7842'],
+        ['Cafeteria Revenue','48650'],
+        [],
+        ['Department','Students','Attendance'],
+        ['Computer Science',420,'91%'],
+        ['Cyber Security',250,'88%'],
+        ['Information Technology',280,'85%'],
+        ['Electronics',180,'82%'],
+        ['Mechanical',120,'79%']
+    ];
+
+    const csv = rows.map(row => row.join(',')).join('\n');
+    const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'smart-campus-complete-report.csv';
+    link.click();
+    URL.revokeObjectURL(url);
+}
+
+function updatePeriod() {
+    const days = document.getElementById('period').value;
+    alert('Showing the demo analytics view for the selected ' + days + '-day period. The sample chart data is illustrative.');
+}
+
+function logout() {
+    sessionStorage.removeItem('student');
+    window.location.href = 'login.html';
+}
+
+// Load student count from the existing API when available.
+fetch('/api/students')
+    .then(response => {
+        if(!response.ok) throw new Error('API unavailable');
+        return response.json();
+    })
+    .then(data => {
+        if(Array.isArray(data)) {
+            document.getElementById('totalStudents').textContent =
+                data.length.toLocaleString('en-IN');
+        }
+    })
+    .catch(() => {
+        // Keep the illustrative demo value if the API is unavailable.
+    });
+</script>
+
+</body>
+</html>

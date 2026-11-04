@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Management | Smart AI Campus</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: #080b18;
+    color: #fff;
+}
+
+.sidebar {
+    width: 255px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 25px 18px;
+    background: #101429;
+    border-right: 1px solid #252c49;
+    overflow-y: auto;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 800;
+    color: #a78bfa;
+    margin-bottom: 35px;
+}
+
+.logo span {
+    color: white;
+}
+
+.section-title {
+    color: #737d9d;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin: 25px 12px 12px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 14px;
+    margin: 5px 0;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #aab2cc;
+    font-size: 13px;
+    transition: .3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: linear-gradient(90deg, #6d45d9, #4930a3);
+    color: white;
+}
+
+.main {
+    margin-left: 255px;
+    padding: 30px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    gap: 15px;
+}
+
+.topbar h1 {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.topbar p {
+    color: #929bb8;
+    font-size: 12px;
+    margin-top: 7px;
+}
+
+.admin-profile {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    background: #151b32;
+    border: 1px solid #292f4d;
+    padding: 10px 14px;
+    border-radius: 12px;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #8b5cf6, #4f46e5);
+    font-weight: 800;
+}
+
+.admin-profile strong {
+    font-size: 12px;
+}
+
+.admin-profile small {
+    display: block;
+    color: #929bb8;
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+.heading-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 12px;
+}
+
+.heading-row h2 {
+    font-size: 18px;
+}
+
+.heading-row p {
+    color: #929bb8;
+    font-size: 11px;
+    margin-top: 6px;
+}
+
+.button {
+    border: none;
+    border-radius: 9px;
+    padding: 11px 15px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 700;
+    transition: .3s;
+}
+
+.primary {
+    background: linear-gradient(90deg, #8b5cf6, #6544ce);
+    color: white;
+}
+
+.secondary {
+    background: #202743;
+    color: #d7dcf0;
+    border: 1px solid #343c5d;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    opacity: .9;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 17px;
+    margin-bottom: 23px;
+}
+
+.stat-card {
+    background: #11172d;
+    border: 1px solid #252c49;
+    border-radius: 15px;
+    padding: 21px;
+}
+
+.stat-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: #6844c52b;
+    font-size: 20px;
+}
+
+.stat-card p {
+    color: #929bb8;
+    font-size: 11px;
+    margin-top: 15px;
+}
+
+.stat-card h2 {
+    font-size: 26px;
+    margin-top: 7px;
+}
+
+.panel {
+    background: #11172d;
+    border: 1px solid #252c49;
+    border-radius: 17px;
+    padding: 22px;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.search-box {
+    flex: 1;
+    min-width: 200px;
+    position: relative;
+}
+
+.search-box input,
+select {
+    width: 100%;
+    padding: 13px 14px;
+    border-radius: 9px;
+    border: 1px solid #303957;
+    outline: none;
+    background: #0b1023;
+    color: white;
+    font-size: 12px;
+}
+
+.search-box input:focus,
+select:focus {
+    border-color: #9877ed;
+}
+
+select {
+    width: 190px;
+    cursor: pointer;
+}
+
+select option {
+    background: #11172d;
+}
+
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 650px;
+}
+
+th {
+    text-align: left;
+    color: #8993b3;
+    font-size: 10px;
+    letter-spacing: .7px;
+    padding: 14px 12px;
+    border-bottom: 1px solid #2a3150;
+}
+
+td {
+    padding: 16px 12px;
+    font-size: 11px;
+    border-bottom: 1px solid #222943;
+    color: #d6dbee;
+}
+
+tr:hover td {
+    background: #171d37;
+}
+
+.student-name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+.student-avatar {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #7550d8, #3f50a8);
+    font-weight: 800;
+}
+
+.badge {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    background: #174c3b;
+    color: #6ee7b7;
+    font-size: 10px;
+}
+
+.view-btn {
+    background: #30245b;
+    color: #c4b5fd;
+    border: 1px solid #514080;
+    padding: 7px 11px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.empty {
+    text-align: center;
+    color: #929bb8;
+    padding: 35px;
+    font-size: 12px;
+}
+
+.message {
+    color: #a5b4fc;
+    font-size: 11px;
+    margin-bottom: 12px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #000b;
+    z-index: 10;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.modal-content {
+    background: #151b32;
+    border: 1px solid #44416e;
+    border-radius: 18px;
+    padding: 25px;
+    width: 100%;
+    max-width: 420px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.modal-header h3 {
+    font-size: 17px;
+}
+
+.close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 23px;
+    cursor: pointer;
+}
+
+.detail {
+    padding: 13px 0;
+    border-bottom: 1px solid #303957;
+}
+
+.detail small {
+    display: block;
+    color: #929bb8;
+    font-size: 10px;
+    margin-bottom: 6px;
+}
+
+.detail strong {
+    font-size: 12px;
+    word-break: break-word;
+}
+
+.footer {
+    text-align: center;
+    color: #626c8d;
+    font-size: 10px;
+    padding: 30px 0;
+}
+
+@media(max-width:900px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 18px;
+    }
+}
+
+@media(max-width:600px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar h1 {
+        font-size: 19px;
+    }
+
+    .heading-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    select {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">✦ SMART<span>CAMPUS</span></div>
+
+    <div class="section-title">ADMINISTRATION</div>
+
+    <a href="admin-dashboard.html" class="nav-link">▦ Admin Dashboard</a>
+    <a href="student-management.html" class="nav-link active">👥 Student Management</a>
+    <a href="entry-monitoring.html" class="nav-link">🚪 Entry Monitoring</a>
+    <a href="reports.html" class="nav-link">📊 Reports & Analytics</a>
+
+    <div class="section-title">CAMPUS MANAGEMENT</div>
+
+    <a href="attendance.html" class="nav-link">📅 Attendance</a>
+    <a href="classroom.html" class="nav-link">🏫 Classrooms</a>
+    <a href="cafeteria.html" class="nav-link">🍽️ Cafeteria</a>
+    <a href="notifications.html" class="nav-link">🔔 Notifications</a>
+
+    <div style="margin-top:30px;border-top:1px solid #252c49;padding-top:15px;">
+        <a href="../index.html" class="nav-link">🏠 Back to Home</a>
+        <a href="#" class="nav-link" onclick="logout()">↪ Logout</a>
+    </div>
+
+</aside>
+
+<main class="main">
+
+    <div class="topbar">
+        <div>
+            <h1>Student Management</h1>
+            <p>Manage and monitor registered campus students.</p>
+        </div>
+
+        <div class="admin-profile">
+            <div class="avatar">A</div>
+            <div>
+                <strong>Campus Admin</strong>
+                <small>Administrator</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="heading-row">
+        <div>
+            <h2>Student Directory</h2>
+            <p>Student records retrieved from your campus database.</p>
+        </div>
+
+        <button class="button primary" onclick="loadStudents()">
+            ↻ Refresh Records
+        </button>
+    </div>
+
+    <section class="stats">
+
+        <div class="stat-card">
+            <div class="stat-icon">👥</div>
+            <p>Total Registered Students</p>
+            <h2 id="totalCount">0</h2>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🔍</div>
+            <p>Displayed Students</p>
+            <h2 id="displayCount">0</h2>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🏫</div>
+            <p>Departments Represented</p>
+            <h2 id="departmentCount">0</h2>
+        </div>
+
+    </section>
+
+    <section class="panel">
+
+        <div class="toolbar">
+
+            <div class="search-box">
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search name, student ID or email..."
+                    oninput="filterStudents()"
+                >
+            </div>
+
+            <select id="departmentFilter" onchange="filterStudents()">
+                <option value="all">All Departments</option>
+            </select>
+
+            <button class="button secondary" onclick="exportCSV()">
+                ↓ Export CSV
+            </button>
+
+        </div>
+
+        <div id="message" class="message">Connecting to student database...</div>
+
+        <div class="table-wrap">
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>STUDENT</th>
+                        <th>STUDENT ID</th>
+                        <th>EMAIL ADDRESS</th>
+                        <th>DEPARTMENT</th>
+                        <th>STATUS</th>
+                        <th>ACTION</th>
+                    </tr>
+                </thead>
+
+                <tbody id="studentTable">
+                    <tr>
+                        <td colspan="6" class="empty">Loading student records...</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </section>
+
+    <div class="footer">
+        SMART AI CAMPUS © 2026 · STUDENT MANAGEMENT
+    </div>
+
+</main>
+
+<!-- STUDENT DETAILS MODAL -->
+
+<div class="modal" id="studentModal" onclick="closeOutside(event)">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h3>Student Information</h3>
+            <button class="close" onclick="closeModal()">×</button>
+        </div>
+
+        <div id="studentDetails"></div>
+
+        <button class="button primary"
+            style="width:100%;margin-top:20px"
+            onclick="closeModal()">
+            Close
+        </button>
+
+    </div>
+</div>
+
+<script>
+let allStudents = [];
+let filteredStudents = [];
+
+async function loadStudents() {
+
+    const table = document.getElementById("studentTable");
+    const message = document.getElementById("message");
+
+    message.textContent = "Connecting to student database...";
+
+    table.innerHTML =
+        '<tr><td colspan="6" class="empty">Loading records...</td></tr>';
+
+    try {
+
+        const response = await fetch("/api/students");
+
+        if (!response.ok) {
+            throw new Error("Server returned an error: " + response.status);
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data)) {
+            throw new Error("Unexpected student data format.");
+        }
+
+        allStudents = data;
+
+        updateDepartmentFilter();
+        filterStudents();
+
+        message.textContent =
+            "Successfully loaded student records from the database.";
+
+    } catch (error) {
+
+        console.error(error);
+
+        allStudents = [];
+        filteredStudents = [];
+
+        updateCounts();
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="6" class="empty">
+                    Unable to load student records.<br><br>
+                    Check whether your Node.js server and MySQL database are running.
+                    <br><br>${escapeHTML(error.message)}
+                </td>
+            </tr>
+        `;
+
+        message.textContent = "Database connection failed.";
+    }
+}
+
+function getDepartment(student) {
+    return student.department || student.dept || "Not specified";
+}
+
+function updateDepartmentFilter() {
+
+    const select = document.getElementById("departmentFilter");
+
+    const departments = [
+        ...new Set(allStudents.map(getDepartment))
+    ].sort();
+
+    select.innerHTML = '<option value="all">All Departments</option>';
+
+    departments.forEach(department => {
+
+        const option = document.createElement("option");
+
+        option.value = department;
+        option.textContent = department;
+
+        select.appendChild(option);
+    });
+}
+
+function filterStudents() {
+
+    const search = document
+        .getElementById("searchInput")
+        .value.toLowerCase()
+        .trim();
+
+    const department =
+        document.getElementById("departmentFilter").value;
+
+    filteredStudents = allStudents.filter(student => {
+
+        const name = String(student.full_name || student.name || "").toLowerCase();
+        const id = String(student.student_id || student.id || "").toLowerCase();
+        const email = String(student.email || "").toLowerCase();
+
+        const matchesSearch =
+            name.includes(search) ||
+            id.includes(search) ||
+            email.includes(search);
+
+        const matchesDepartment =
+            department === "all" ||
+            getDepartment(student) === department;
+
+        return matchesSearch && matchesDepartment;
+    });
+
+    renderStudents();
+    updateCounts();
+}
+
+function renderStudents() {
+
+    const table = document.getElementById("studentTable");
+
+    if (filteredStudents.length === 0) {
+
+        table.innerHTML = `
+            <tr>
+                <td colspan="6" class="empty">
+                    No matching student records found.
+                </td>
+            </tr>
+        `;
+
+        return;
+    }
+
+    table.innerHTML = filteredStudents.map((student, index) => {
+
+        const name = student.full_name || student.name || "Unnamed Student";
+        const id = student.student_id || student.id || "N/A";
+        const email = student.email || "N/A";
+        const department = getDepartment(student);
+
+        const initial = String(name).charAt(0).toUpperCase();
+
+        return `
+            <tr>
+                <td>
+                    <div class="student-name">
+                        <div class="student-avatar">${escapeHTML(initial)}</div>
+                        ${escapeHTML(name)}
+                    </div>
+                </td>
+
+                <td>${escapeHTML(id)}</td>
+                <td>${escapeHTML(email)}</td>
+                <td>${escapeHTML(department)}</td>
+
+                <td><span class="badge">Registered</span></td>
+
+                <td>
+                    <button class="view-btn" onclick="viewStudent(${index})">
+                        View Details
+                    </button>
+                </td>
+            </tr>
+        `;
+
+    }).join("");
+}
+
+function updateCounts() {
+
+    document.getElementById("totalCount").textContent =
+        allStudents.length;
+
+    document.getElementById("displayCount").textContent =
+        filteredStudents.length;
+
+    const departments = new Set(
+        allStudents.map(getDepartment)
+    );
+
+    document.getElementById("departmentCount").textContent =
+        departments.size;
+}
+
+function viewStudent(index) {
+
+    const student = filteredStudents[index];
+
+    if (!student) return;
+
+    const details = document.getElementById("studentDetails");
+
+    const fields = [
+        ["Full Name", student.full_name || student.name || "N/A"],
+        ["Student ID", student.student_id || student.id || "N/A"],
+        ["Email Address", student.email || "N/A"],
+        ["Department", getDepartment(student)],
+        ["Registration Date", student.created_at || "Not available"]
+    ];
+
+    details.innerHTML = fields.map(([label, value]) => `
+        <div class="detail">
+            <small>${escapeHTML(label)}</small>
+            <strong>${escapeHTML(value)}</strong>
+        </div>
+    `).join("");
+
+    document.getElementById("studentModal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("studentModal").style.display = "none";
+}
+
+function closeOutside(event) {
+    if (event.target.id === "studentModal") {
+        closeModal();
+    }
+}
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+function exportCSV() {
+
+    if (filteredStudents.length === 0) {
+        alert("No student records available to export.");
+        return;
+    }
+
+    const headers = [
+        "Full Name",
+        "Student ID",
+        "Email",
+        "Department"
+    ];
+
+    const rows = filteredStudents.map(student => [
+        student.full_name || student.name || "",
+        student.student_id || student.id || "",
+        student.email || "",
+        getDepartment(student)
+    ]);
+
+    const csv = [headers, ...rows]
+        .map(row => row.map(value =>
+            '"' + String(value).replace(/"/g, '""') + '"'
+        ).join(","))
+        .join("\n");
+
+    const blob = new Blob([csv], {
+        type: "text/csv;charset=utf-8;"
+    });
+
+    const link = document.createElement("a");
+
+    link.href = URL.createObjectURL(blob);
+    link.download = "smart-campus-students.csv";
+    link.click();
+
+    URL.revokeObjectURL(link.href);
+}
+
+function logout() {
+
+    if (confirm("Are you sure you want to logout?")) {
+        sessionStorage.clear();
+        location.href = "../index.html";
+    }
+}
+
+loadStudents();
+</script>
+
+</body>
+</html>

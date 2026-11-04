@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Cafeteria | Smart AI Campus</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    font-family:Inter,sans-serif;
+    background:#090d1c;
+    color:#f5f6ff;
+    min-height:100vh;
+}
+:root{
+    --purple:#875cff;
+    --blue:#438bff;
+    --muted:#9ba4c2;
+    --panel:#151b32;
+    --border:rgba(255,255,255,.08);
+}
+.layout{display:flex;min-height:100vh}
+.sidebar{
+    width:245px;background:#10152a;padding:25px 17px;
+    border-right:1px solid var(--border);position:fixed;
+    height:100vh;overflow-y:auto;
+}
+.logo{font-size:20px;font-weight:800;margin-bottom:35px;padding-left:10px}
+.logo span{color:#a78bfa}
+.menu-title{font-size:10px;color:#687493;letter-spacing:2px;margin:25px 10px 12px}
+.nav a{
+    display:block;text-decoration:none;color:#aab2cc;
+    padding:12px 13px;border-radius:11px;margin:5px 0;
+    font-size:13px;transition:.2s;
+}
+.nav a:hover,.nav a.active{background:linear-gradient(100deg,#7449e9,#4e69d9);color:white}
+.logout{
+    margin-top:30px;width:100%;padding:12px;border:1px solid #343c59;
+    background:transparent;color:#ff8585;border-radius:10px;cursor:pointer;
+}
+.main{margin-left:245px;width:calc(100% - 245px);padding:30px 35px}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;gap:15px}
+.topbar h1{font-size:25px}
+.topbar p{color:var(--muted);font-size:13px;margin-top:6px}
+.wallet{
+    background:linear-gradient(120deg,#33236b,#263c78);
+    border:1px solid #6551ae;padding:13px 19px;border-radius:14px;
+}
+.wallet small{color:#c4b8ff;font-size:11px}
+.wallet h2{font-size:21px;margin-top:4px}
+.hero{
+    min-height:190px;border-radius:20px;padding:30px;
+    display:flex;align-items:center;justify-content:space-between;
+    background:linear-gradient(100deg,rgba(13,17,39,.96),rgba(41,35,83,.8)),
+    url("https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1400") center/cover;
+    border:1px solid var(--border);margin-bottom:25px;
+}
+.hero h2{font-size:27px;margin-bottom:10px}
+.hero p{color:#c0c5dd;font-size:13px;line-height:1.7;max-width:480px}
+.hero-badge{background:#ffffff16;border:1px solid #ffffff30;padding:13px 18px;border-radius:14px;font-size:13px}
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.search{
+    flex:1;min-width:200px;background:var(--panel);border:1px solid var(--border);
+    padding:13px 15px;color:white;border-radius:11px;outline:none;
+}
+.filter{
+    background:var(--panel);border:1px solid var(--border);
+    padding:12px 15px;color:white;border-radius:11px;outline:none;
+}
+.section-heading{display:flex;justify-content:space-between;align-items:center;margin:25px 0 17px}
+.section-heading h2{font-size:18px}
+.section-heading span{font-size:12px;color:var(--muted)}
+.food-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.food-card{
+    background:var(--panel);border:1px solid var(--border);
+    border-radius:17px;overflow:hidden;transition:.25s;
+}
+.food-card:hover{transform:translateY(-5px);border-color:#8060e9;box-shadow:0 12px 30px #0004}
+.food-image{height:145px;position:relative;overflow:hidden}
+.food-image img{width:100%;height:100%;object-fit:cover}
+.tag{
+    position:absolute;top:12px;left:12px;background:#11182bdc;
+    padding:6px 10px;border-radius:20px;font-size:10px;
+}
+.food-info{padding:16px}
+.food-info h3{font-size:15px;margin-bottom:7px}
+.food-info p{font-size:11px;color:var(--muted);line-height:1.5;min-height:34px}
+.food-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:15px}
+.price{font-size:18px;font-weight:800;color:#c4a8ff}
+.add-btn{
+    border:0;background:linear-gradient(110deg,#875cff,#477eff);
+    color:white;padding:9px 14px;border-radius:9px;cursor:pointer;font-weight:700;
+}
+.add-btn:hover{filter:brightness(1.15)}
+.cart-panel{
+    margin-top:30px;background:var(--panel);border:1px solid var(--border);
+    border-radius:17px;padding:22px;
+}
+.cart-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.cart-header h2{font-size:18px}
+.cart-count{background:#3b2d70;color:#d8caff;padding:6px 11px;border-radius:20px;font-size:11px}
+.cart-item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border);font-size:13px}
+.cart-item small{color:var(--muted)}
+.quantity{display:flex;align-items:center;gap:10px}
+.quantity button{
+    width:25px;height:25px;border:1px solid #555078;background:#282345;
+    color:white;border-radius:7px;cursor:pointer;
+}
+.cart-total{display:flex;justify-content:space-between;margin-top:20px;font-weight:800;font-size:17px}
+.order-btn{
+    width:100%;padding:14px;margin-top:18px;border:0;border-radius:11px;
+    background:linear-gradient(100deg,#875cff,#477eff);color:white;
+    font-size:14px;font-weight:800;cursor:pointer;
+}
+.order-btn:disabled{opacity:.4;cursor:not-allowed}
+.orders{
+    margin-top:25px;background:var(--panel);border:1px solid var(--border);
+    border-radius:17px;padding:22px;
+}
+.order-row{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);font-size:12px;gap:10px}
+.status{color:#62e5a0;background:#173c32;padding:5px 9px;border-radius:20px}
+.empty{color:var(--muted);font-size:13px;padding:15px 0}
+.toast{
+    position:fixed;bottom:25px;right:25px;background:#1c2944;
+    border:1px solid #5d64a2;padding:14px 20px;border-radius:12px;
+    display:none;z-index:10;font-size:13px;
+}
+@media(max-width:1100px){.food-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:750px){
+    .sidebar{width:75px;padding:20px 8px}
+    .logo{font-size:0;padding:0;text-align:center}
+    .logo span{font-size:19px}
+    .nav a{font-size:0;text-align:center;padding:14px 4px}
+    .nav a::first-letter{font-size:15px}
+    .menu-title{font-size:8px;margin-left:3px}
+    .logout{font-size:0}
+    .logout::after{content:"↪";font-size:18px}
+    .main{margin-left:75px;width:calc(100% - 75px);padding:22px 15px}
+    .food-grid{grid-template-columns:1fr}
+    .hero{padding:22px}
+    .hero h2{font-size:21px}
+    .hero-badge{display:none}
+    .topbar{align-items:flex-start;flex-direction:column}
+}
+</style>
+</head>
+
+<body>
+<div class="layout">
+
+<aside class="sidebar">
+    <div class="logo">SMART <span>CAMPUS</span></div>
+
+    <div class="menu-title">MAIN MENU</div>
+    <nav class="nav">
+        <a href="dashboard.html">◈ Dashboard</a>
+        <a href="profile.html">♙ My Profile</a>
+        <a href="qr.html">▦ Digital ID & Wallet</a>
+        <a href="attendance.html">▤ Attendance</a>
+        <a href="classroom.html">▣ Classroom</a>
+        <a href="navigation.html">⌖ Campus Navigation</a>
+        <a class="active" href="cafeteria.html">☕ Smart Cafeteria</a>
+        <a href="ai-assistant.html">✧ AI Assistant</a>
+        <a href="student-care.html">♡ Student Care</a>
+        <a href="emergency.html">⚠ Emergency Help</a>
+    </nav>
+
+    <div class="menu-title">ACCOUNT</div>
+    <nav class="nav">
+        <a href="notifications.html">♧ Notifications</a>
+    </nav>
+    <button class="logout" onclick="logout()">↪ Logout</button>
+</aside>
+
+<main class="main">
+
+    <div class="topbar">
+        <div>
+            <h1>Smart Cafeteria ☕</h1>
+            <p>Order your favourite food without standing in a queue.</p>
+        </div>
+        <div class="wallet">
+            <small>MY CAMPUS WALLET</small>
+            <h2 id="walletBalance">₹850.00</h2>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div>
+            <h2>Good food. Zero waiting. 🍕</h2>
+            <p>Explore the campus cafeteria menu, add your favourite dishes to your cart and place your order digitally.</p>
+        </div>
+        <div class="hero-badge">✦ DIGITAL FOOD ORDERING</div>
+    </section>
+
+    <div class="toolbar">
+        <input class="search" id="searchInput" type="text" placeholder="Search food items..." oninput="renderFoods()">
+        <select class="filter" id="categoryFilter" onchange="renderFoods()">
+            <option value="All">All Categories</option>
+            <option value="Meals">Meals</option>
+            <option value="Snacks">Snacks</option>
+            <option value="Drinks">Drinks</option>
+            <option value="Desserts">Desserts</option>
+        </select>
+    </div>
+
+    <div class="section-heading">
+        <h2>Today's Menu</h2>
+        <span>Sample cafeteria menu</span>
+    </div>
+
+    <div class="food-grid" id="foodGrid"></div>
+
+    <section class="cart-panel">
+        <div class="cart-header">
+            <h2>🛒 Your Cart</h2>
+            <span class="cart-count" id="cartCount">0 ITEMS</span>
+        </div>
+
+        <div id="cartItems">
+            <div class="empty">Your cart is empty. Add some delicious food!</div>
+        </div>
+
+        <div class="cart-total">
+            <span>Total Amount</span>
+            <span id="cartTotal">₹0.00</span>
+        </div>
+
+        <button class="order-btn" id="orderButton" onclick="placeOrder()" disabled>
+            Place Order & Pay
+        </button>
+    </section>
+
+    <section class="orders">
+        <div class="section-heading">
+            <h2>Recent Orders</h2>
+            <span>Your order history</span>
+        </div>
+        <div id="orderHistory">
+            <div class="empty">No orders placed yet.</div>
+        </div>
+    </section>
+
+</main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const student = JSON.parse(sessionStorage.getItem("student") || "null");
+
+if (!student) {
+    window.location.href = "login.html";
+}
+
+const walletKey = "wallet_" + (student?.student_id || "guest");
+const orderKey = "cafeteriaOrders_" + (student?.student_id || "guest");
+
+let wallet = Number(localStorage.getItem(walletKey) ?? 850);
+let cart = [];
+
+const foods = [
+    {
+        id:1,name:"Chicken Biriyani",category:"Meals",price:140,
+        description:"Aromatic biriyani served with raita.",
+        image:"https://images.unsplash.com/photo-1563379091339-03246963d51a?w=600",
+        tag:"BEST SELLER"
+    },
+    {
+        id:2,name:"Veg Fried Rice",category:"Meals",price:90,
+        description:"Fresh vegetables tossed with fried rice.",
+        image:"https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=600",
+        tag:"POPULAR"
+    },
+    {
+        id:3,name:"Chicken Burger",category:"Snacks",price:110,
+        description:"Juicy chicken patty with fresh vegetables.",
+        image:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600",
+        tag:"FAVOURITE"
+    },
+    {
+        id:4,name:"Pizza",category:"Snacks",price:130,
+        description:"Cheesy pizza with delicious toppings.",
+        image:"https://images.unsplash.com/photo- pizza-?w=600",
+        tag:"HOT"
+    },
+    {
+        id:5,name:"French Fries",category:"Snacks",price:60,
+        description:"Crispy golden potato fries.",
+        image:"https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=600",
+        tag:"CRISPY"
+    },
+    {
+        id:6,name:"Fresh Lime Juice",category:"Drinks",price:35,
+        description:"Refreshing fresh lime drink.",
+        image:"https://images.unsplash.com/photo-1513558161293-cdaf765edfd4?w=600",
+        tag:"FRESH"
+    },
+    {
+        id:7,name:"Cold Coffee",category:"Drinks",price:70,
+        description:"Chilled creamy coffee.",
+        image:"https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=600",
+        tag:"CHILLED"
+    },
+    {
+        id:8,name:"Chocolate Brownie",category:"Desserts",price:65,
+        description:"Soft chocolate brownie.",
+        image:"https://images.unsplash.com/photo-1606313564200-e75d5e30476c?w=600",
+        tag:"SWEET"
+    },
+    {
+        id:9,name:"Ice Cream",category:"Desserts",price:50,
+        description:"A delicious scoop of ice cream.",
+        image:"https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=600",
+        tag:"DESSERT"
+    }
+];
+
+function renderFoods(){
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const category = document.getElementById("categoryFilter").value;
+
+    const filtered = foods.filter(food =>
+        food.name.toLowerCase().includes(search) &&
+        (category === "All" || food.category === category)
+    );
+
+    document.getElementById("foodGrid").innerHTML = filtered.length
+        ? filtered.map(food => `
+            <div class="food-card">
+                <div class="food-image">
+                    <img src="${food.image}" alt="${food.name}"
+                    onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600'">
+                    <span class="tag">${food.tag}</span>
+                </div>
+                <div class="food-info">
+                    <h3>${food.name}</h3>
+                    <p>${food.description}</p>
+                    <div class="food-bottom">
+                        <span class="price">₹${food.price}</span>
+                        <button class="add-btn" onclick="addToCart(${food.id})">+ Add</button>
+                    </div>
+                </div>
+            </div>
+        `).join("")
+        : '<div class="empty">No food items found.</div>';
+}
+
+function addToCart(id){
+    const food = foods.find(item => item.id === id);
+    const existing = cart.find(item => item.id === id);
+
+    if(existing) existing.quantity++;
+    else cart.push({...food,quantity:1});
+
+    renderCart();
+    showToast(food.name + " added to cart!");
+}
+
+function changeQuantity(id,amount){
+    const item = cart.find(item => item.id === id);
+    if(!item) return;
+
+    item.quantity += amount;
+
+    if(item.quantity <= 0){
+        cart = cart.filter(item => item.id !== id);
+    }
+
+    renderCart();
+}
+
+function renderCart(){
+    const container = document.getElementById("cartItems");
+    const totalItems = cart.reduce((sum,item) => sum + item.quantity,0);
+    const total = cart.reduce((sum,item) => sum + item.price * item.quantity,0);
+
+    document.getElementById("cartCount").textContent = totalItems + " ITEMS";
+    document.getElementById("cartTotal").textContent = "₹" + total.toFixed(2);
+    document.getElementById("orderButton").disabled = cart.length === 0;
+
+    container.innerHTML = cart.length
+        ? cart.map(item => `
+            <div class="cart-item">
+                <div>
+                    <strong>${item.name}</strong><br>
+                    <small>₹${item.price} each</small>
+                </div>
+                <div class="quantity">
+                    <button onclick="changeQuantity(${item.id},-1)">−</button>
+                    <span>${item.quantity}</span>
+                    <button onclick="changeQuantity(${item.id},1)">+</button>
+                </div>
+                <strong>₹${item.price * item.quantity}</strong>
+            </div>
+        `).join("")
+        : '<div class="empty">Your cart is empty. Add some delicious food!</div>';
+}
+
+function updateWallet(){
+    document.getElementById("walletBalance").textContent = "₹" + wallet.toFixed(2);
+    localStorage.setItem(walletKey,wallet);
+}
+
+function placeOrder(){
+    if(cart.length === 0) return;
+
+    const total = cart.reduce((sum,item) => sum + item.price * item.quantity,0);
+
+    if(total > wallet){
+        showToast("Insufficient wallet balance!");
+        return;
+    }
+
+    if(!confirm("Confirm your order for ₹" + total + "?")) return;
+
+    wallet -= total;
+    updateWallet();
+
+    const orders = JSON.parse(localStorage.getItem(orderKey) || "[]");
+
+    orders.unshift({
+        id:"ORD" + Date.now().toString().slice(-7),
+        items:cart.map(item => item.name + " × " + item.quantity).join(", "),
+        total:total,
+        date:new Date().toLocaleString(),
+        status:"Order Placed"
+    });
+
+    localStorage.setItem(orderKey,JSON.stringify(orders));
+
+    cart = [];
+    renderCart();
+    renderOrders();
+
+    showToast("Order placed successfully!");
+}
+
+function renderOrders(){
+    const orders = JSON.parse(localStorage.getItem(orderKey) || "[]");
+    const container = document.getElementById("orderHistory");
+
+    container.innerHTML = orders.length
+        ? orders.slice(0,5).map(order => `
+            <div class="order-row">
+                <div>
+                    <strong>${order.id}</strong><br>
+                    <small style="color:#9ba4c2">${order.items}</small><br>
+                    <small style="color:#9ba4c2">${order.date}</small>
+                </div>
+                <div style="text-align:right">
+                    <strong>₹${order.total}</strong><br>
+                    <span class="status">${order.status}</span>
+                </div>
+            </div>
+        `).join("")
+        : '<div class="empty">No orders placed yet.</div>';
+}
+
+function showToast(message){
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.style.display = "block";
+
+    setTimeout(() => toast.style.display = "none",2500);
+}
+
+function logout(){
+    sessionStorage.removeItem("student");
+    window.location.href = "login.html";
+}
+
+renderFoods();
+renderCart();
+renderOrders();
+updateWallet();
+</script>
+</body>
+</html>

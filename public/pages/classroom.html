@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Classroom Management | Smart AI Campus</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    font-family:Inter,sans-serif;
+    background:#090d1c;
+    color:#f5f6ff;
+}
+.sidebar{
+    width:250px;
+    height:100vh;
+    position:fixed;
+    left:0;top:0;
+    background:#10162b;
+    border-right:1px solid #252d49;
+    padding:25px 17px;
+    overflow-y:auto;
+}
+.logo{
+    font-size:20px;
+    font-weight:800;
+    margin-bottom:35px;
+    padding-left:10px;
+}
+.logo span{color:#a78bfa}
+.menu-title{
+    color:#737f9f;
+    font-size:11px;
+    font-weight:700;
+    margin:22px 10px 10px;
+    letter-spacing:1px;
+}
+.sidebar a{
+    display:block;
+    text-decoration:none;
+    color:#aeb8d0;
+    padding:12px 13px;
+    margin:5px 0;
+    border-radius:10px;
+    font-size:13px;
+    transition:.3s;
+}
+.sidebar a:hover,.sidebar a.active{
+    background:linear-gradient(90deg,#673de0,#392b78);
+    color:white;
+}
+.logout{
+    margin-top:30px;
+    cursor:pointer;
+}
+.main{
+    margin-left:250px;
+    padding:35px;
+}
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+    gap:15px;
+}
+.topbar h1{font-size:26px}
+.topbar p{color:#8995b3;font-size:13px;margin-top:7px}
+.user{
+    background:#171f39;
+    border:1px solid #303a5d;
+    padding:11px 16px;
+    border-radius:12px;
+    color:#c4b5fd;
+    font-size:13px;
+}
+.welcome{
+    background:linear-gradient(110deg,#35216f,#202c58);
+    border:1px solid #5943a5;
+    border-radius:18px;
+    padding:27px;
+    margin-bottom:25px;
+}
+.welcome h2{font-size:21px;margin-bottom:9px}
+.welcome p{color:#d0c8f3;font-size:13px;line-height:1.7}
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:17px;
+    margin-bottom:25px;
+}
+.card{
+    background:#121a31;
+    border:1px solid #273252;
+    border-radius:15px;
+    padding:21px;
+}
+.stat-label{color:#8f9bb8;font-size:12px}
+.stat-value{font-size:27px;font-weight:800;margin:12px 0 5px}
+.stat-note{font-size:11px;color:#9d8bff}
+.section-title{
+    font-size:18px;
+    margin-bottom:17px;
+}
+.tools{
+    display:flex;
+    gap:12px;
+    margin-bottom:20px;
+}
+input,select{
+    background:#151e37;
+    border:1px solid #303c60;
+    color:white;
+    padding:13px;
+    border-radius:10px;
+    outline:none;
+    font-family:inherit;
+}
+input{flex:1;min-width:100px}
+select{min-width:150px}
+input::placeholder{color:#7e8aa7}
+.rooms{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:17px;
+    margin-bottom:30px;
+}
+.room{
+    background:#121a31;
+    border:1px solid #293656;
+    border-radius:15px;
+    padding:20px;
+    transition:.25s;
+}
+.room:hover{
+    transform:translateY(-4px);
+    border-color:#8b5cf6;
+}
+.room-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:17px;
+}
+.room-icon{
+    width:42px;height:42px;
+    display:grid;place-items:center;
+    background:#29204d;
+    border-radius:12px;
+    font-size:20px;
+}
+.badge{
+    font-size:10px;
+    padding:6px 9px;
+    border-radius:20px;
+    font-weight:700;
+}
+.available{background:#123b32;color:#5ee6b0}
+.occupied{background:#44252d;color:#ff8c9c}
+.room h3{font-size:16px;margin-bottom:7px}
+.room p{color:#8f9bb8;font-size:12px;margin-bottom:15px}
+.facilities{
+    display:flex;
+    flex-wrap:wrap;
+    gap:7px;
+    margin-bottom:17px;
+}
+.facilities span{
+    background:#202a46;
+    color:#b9c3dc;
+    font-size:10px;
+    padding:6px 8px;
+    border-radius:6px;
+}
+.room-bottom{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:12px;
+    color:#aab5cf;
+}
+button{
+    border:0;
+    cursor:pointer;
+    color:white;
+    background:linear-gradient(100deg,#8053f3,#5935c5);
+    padding:10px 14px;
+    border-radius:8px;
+    font-weight:600;
+}
+button:disabled{
+    background:#30394f;
+    color:#858da1;
+    cursor:not-allowed;
+}
+.table-card{
+    background:#121a31;
+    border:1px solid #293656;
+    border-radius:15px;
+    padding:22px;
+    overflow-x:auto;
+}
+table{width:100%;border-collapse:collapse;min-width:600px}
+th,td{
+    padding:15px 12px;
+    text-align:left;
+    border-bottom:1px solid #29334e;
+    font-size:12px;
+}
+th{color:#8f9bb8;font-weight:600}
+td{color:#d4d9e8}
+tr:last-child td{border:0}
+.time{color:#b8a5ff;font-weight:600}
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:#000b;
+    z-index:10;
+    justify-content:center;
+    align-items:center;
+    padding:20px;
+}
+.modal-box{
+    background:#151e37;
+    border:1px solid #5b49a0;
+    border-radius:17px;
+    padding:25px;
+    width:100%;
+    max-width:400px;
+}
+.modal-box h2{margin-bottom:15px}
+.modal-box input{width:100%;margin:8px 0}
+.modal-actions{display:flex;gap:10px;margin-top:15px}
+.modal-actions button{flex:1}
+.cancel{background:#30394f}
+.notice{
+    color:#8995b3;
+    font-size:11px;
+    margin-top:20px;
+    line-height:1.6;
+}
+@media(max-width:1100px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .rooms{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:750px){
+    .sidebar{width:65px;padding:20px 7px}
+    .logo{font-size:0;padding:0 8px}
+    .logo span{font-size:18px}
+    .menu-title{font-size:0}
+    .sidebar a{font-size:0;text-align:center;padding:13px 3px}
+    .main{margin-left:65px;padding:20px 13px}
+    .topbar{align-items:flex-start;flex-direction:column}
+    .rooms{grid-template-columns:1fr}
+    .tools{flex-direction:column}
+}
+@media(max-width:430px){
+    .stats{grid-template-columns:1fr 1fr}
+    .stat-value{font-size:22px}
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+    <div class="logo">SMART <span>CAMPUS</span></div>
+
+    <div class="menu-title">MAIN MENU</div>
+    <a href="../index.html">🏠 &nbsp; Home</a>
+    <a href="dashboard.html">📊 &nbsp; Dashboard</a>
+    <a href="profile.html">👤 &nbsp; My Profile</a>
+    <a href="qr.html">🪪 &nbsp; Digital ID & Wallet</a>
+    <a href="attendance.html">📅 &nbsp; Attendance</a>
+    <a href="classroom.html" class="active">🏫 &nbsp; Classroom</a>
+    <a href="navigation.html">🗺️ &nbsp; Campus Navigation</a>
+    <a href="cafeteria.html">🍔 &nbsp; Cafeteria</a>
+    <a href="ai-assistant.html">🤖 &nbsp; AI Assistant</a>
+
+    <div class="menu-title">STUDENT SERVICES</div>
+    <a href="student-care.html">💬 &nbsp; Student Care</a>
+    <a href="emergency.html">🚨 &nbsp; Emergency Help</a>
+    <a href="notifications.html">🔔 &nbsp; Notifications</a>
+
+    <div class="menu-title">ADMINISTRATION</div>
+    <a href="admin-dashboard.html">⚙️ &nbsp; Admin Dashboard</a>
+    <a href="student-management.html">👥 &nbsp; Student Management</a>
+    <a href="entry-monitoring.html">🚪 &nbsp; Entry Monitoring</a>
+    <a href="reports.html">📈 &nbsp; Reports</a>
+
+    <a class="logout" onclick="logout()">🚪 &nbsp; Logout</a>
+</aside>
+
+<main class="main">
+
+    <div class="topbar">
+        <div>
+            <h1>Classroom Management 🏫</h1>
+            <p>Find available classrooms and manage your campus schedule.</p>
+        </div>
+        <div class="user" id="userName">Student Portal</div>
+    </div>
+
+    <section class="welcome">
+        <h2>Smart Classroom System</h2>
+        <p>Discover available classrooms, check room facilities, view schedules and request a classroom booking from one place.</p>
+    </section>
+
+    <section class="stats">
+        <div class="card">
+            <div class="stat-label">Total Classrooms</div>
+            <div class="stat-value">24</div>
+            <div class="stat-note">Across campus</div>
+        </div>
+        <div class="card">
+            <div class="stat-label">Available Now</div>
+            <div class="stat-value" id="availableCount">12</div>
+            <div class="stat-note">Ready to use</div>
+        </div>
+        <div class="card">
+            <div class="stat-label">Currently Occupied</div>
+            <div class="stat-value" id="occupiedCount">12</div>
+            <div class="stat-note">In active use</div>
+        </div>
+        <div class="card">
+            <div class="stat-label">My Bookings</div>
+            <div class="stat-value" id="bookingCount">0</div>
+            <div class="stat-note">Demo booking requests</div>
+        </div>
+    </section>
+
+    <h2 class="section-title">Find a Classroom</h2>
+
+    <div class="tools">
+        <input type="text" id="searchInput" placeholder="Search classroom or building..." oninput="filterRooms()">
+
+        <select id="statusFilter" onchange="filterRooms()">
+            <option value="all">All Status</option>
+            <option value="available">Available</option>
+            <option value="occupied">Occupied</option>
+        </select>
+    </div>
+
+    <section class="rooms" id="roomContainer"></section>
+
+    <h2 class="section-title">Today's Class Schedule</h2>
+
+    <section class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>TIME</th>
+                    <th>SUBJECT</th>
+                    <th>CLASSROOM</th>
+                    <th>FACULTY</th>
+                    <th>STATUS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="time">09:00 – 10:00</td>
+                    <td>Data Structures</td>
+                    <td>Block A - 201</td>
+                    <td>Faculty 01</td>
+                    <td><span class="badge occupied">Completed</span></td>
+                </tr>
+                <tr>
+                    <td class="time">10:00 – 11:00</td>
+                    <td>Database Management</td>
+                    <td>Block A - 202</td>
+                    <td>Faculty 02</td>
+                    <td><span class="badge occupied">Completed</span></td>
+                </tr>
+                <tr>
+                    <td class="time">11:15 – 12:15</td>
+                    <td>Computer Networks</td>
+                    <td>Block B - 105</td>
+                    <td>Faculty 03</td>
+                    <td><span class="badge available">Upcoming</span></td>
+                </tr>
+                <tr>
+                    <td class="time">13:00 – 14:00</td>
+                    <td>Java Programming</td>
+                    <td>Block A - 204</td>
+                    <td>Faculty 04</td>
+                    <td><span class="badge available">Upcoming</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <p class="notice">
+        Note: Classroom availability, schedules and booking requests on this page are demonstration data.
+        They are not connected to REC's official timetable or live classroom sensors yet.
+    </p>
+
+</main>
+
+<div class="modal" id="bookingModal">
+    <div class="modal-box">
+        <h2>Request Classroom Booking</h2>
+        <p id="selectedRoom" style="color:#a99bff;font-size:13px;margin-bottom:15px"></p>
+
+        <input type="date" id="bookingDate">
+        <input type="time" id="bookingTime">
+        <input type="text" id="bookingPurpose" placeholder="Purpose of booking">
+
+        <div class="modal-actions">
+            <button class="cancel" onclick="closeModal()">Cancel</button>
+            <button onclick="submitBooking()">Submit Request</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const student = JSON.parse(sessionStorage.getItem("student") || "null");
+
+if (!student) {
+    window.location.href = "login.html";
+}
+
+document.getElementById("userName").textContent =
+    student ? student.full_name : "Student Portal";
+
+const rooms = [
+    {name:"Classroom 201",building:"Block A",capacity:60,status:"available",facilities:["Projector","Wi-Fi","AC"]},
+    {name:"Classroom 202",building:"Block A",capacity:60,status:"occupied",facilities:["Projector","Wi-Fi","Smart Board"]},
+    {name:"Computer Lab 01",building:"Block B",capacity:45,status:"available",facilities:["Computers","Wi-Fi","AC"]},
+    {name:"Classroom 204",building:"Block A",capacity:70,status:"occupied",facilities:["Projector","AC","Smart Board"]},
+    {name:"Seminar Hall",building:"Main Block",capacity:150,status:"available",facilities:["Audio System","Projector","AC"]},
+    {name:"Classroom 105",building:"Block B",capacity:55,status:"occupied",facilities:["Projector","Wi-Fi"]},
+    {name:"Computer Lab 02",building:"Block C",capacity:40,status:"available",facilities:["Computers","AC","Wi-Fi"]},
+    {name:"Classroom 301",building:"Block C",capacity:65,status:"available",facilities:["Projector","Smart Board"]},
+    {name:"Discussion Room",building:"Library Block",capacity:20,status:"occupied",facilities:["Wi-Fi","Display Screen"]}
+];
+
+let selectedRoomName = "";
+
+function renderRooms(list) {
+    const container = document.getElementById("roomContainer");
+
+    container.innerHTML = list.map(room => `
+        <div class="room">
+            <div class="room-top">
+                <div class="room-icon">🏫</div>
+                <span class="badge ${room.status}">
+                    ${room.status === "available" ? "AVAILABLE" : "OCCUPIED"}
+                </span>
+            </div>
+
+            <h3>${room.name}</h3>
+            <p>📍 ${room.building} &nbsp; | &nbsp; 👥 ${room.capacity} seats</p>
+
+            <div class="facilities">
+                ${room.facilities.map(item => `<span>${item}</span>`).join("")}
+            </div>
+
+            <div class="room-bottom">
+                <span>${room.status === "available" ? "Ready to use" : "Currently in use"}</span>
+                <button
+                    ${room.status !== "available" ? "disabled" : ""}
+                    onclick="openBooking('${room.name}')">
+                    ${room.status === "available" ? "Book Room" : "Occupied"}
+                </button>
+            </div>
+        </div>
+    `).join("");
+}
+
+function filterRooms() {
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const status = document.getElementById("statusFilter").value;
+
+    const filtered = rooms.filter(room => {
+        const matchesSearch =
+            room.name.toLowerCase().includes(search) ||
+            room.building.toLowerCase().includes(search);
+
+        const matchesStatus =
+            status === "all" || room.status === status;
+
+        return matchesSearch && matchesStatus;
+    });
+
+    renderRooms(filtered);
+}
+
+function openBooking(roomName) {
+    selectedRoomName = roomName;
+    document.getElementById("selectedRoom").textContent =
+        "Selected: " + roomName;
+
+    document.getElementById("bookingDate").value =
+        new Date().toISOString().split("T")[0];
+
+    document.getElementById("bookingModal").style.display = "flex";
+}
+
+function closeModal() {
+    document.getElementById("bookingModal").style.display = "none";
+}
+
+function submitBooking() {
+    const date = document.getElementById("bookingDate").value;
+    const time = document.getElementById("bookingTime").value;
+    const purpose = document.getElementById("bookingPurpose").value.trim();
+
+    if (!date || !time || !purpose) {
+        alert("Please fill in all booking details.");
+        return;
+    }
+
+    const bookings = JSON.parse(localStorage.getItem("classroomBookings") || "[]");
+
+    bookings.push({
+        room: selectedRoomName,
+        date,
+        time,
+        purpose,
+        student: student.student_id,
+        status: "Pending"
+    });
+
+    localStorage.setItem("classroomBookings", JSON.stringify(bookings));
+
+    document.getElementById("bookingCount").textContent = bookings.length;
+
+    alert("Your classroom booking request has been submitted!");
+
+    document.getElementById("bookingPurpose").value = "";
+    document.getElementById("bookingTime").value = "";
+
+    closeModal();
+}
+
+function logout() {
+    sessionStorage.removeItem("student");
+    window.location.href = "login.html";
+}
+
+const savedBookings = JSON.parse(localStorage.getItem("classroomBookings") || "[]");
+document.getElementById("bookingCount").textContent = savedBookings.length;
+
+document.getElementById("availableCount").textContent =
+    rooms.filter(room => room.status === "available").length;
+
+document.getElementById("occupiedCount").textContent =
+    rooms.filter(room => room.status === "occupied").length;
+
+renderRooms(rooms);
+</script>
+
+</body>
+</html>

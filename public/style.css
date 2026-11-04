@@ -1,0 +1,188 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #070d1c;
+    color: white;
+    min-height: 100vh;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 7%;
+    background: #0c1528;
+    border-bottom: 1px solid #163b60;
+}
+
+header h2 {
+    color: #35d9ff;
+    letter-spacing: 2px;
+}
+
+nav a {
+    color: #dce8f5;
+    text-decoration: none;
+    margin-left: 25px;
+    font-size: 14px;
+}
+
+nav a:hover {
+    color: #35d9ff;
+}
+
+main {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+    background:
+        radial-gradient(ellipse at center, #12345a 0%, #070d1c 65%);
+}
+
+.tag {
+    color: #35d9ff;
+    letter-spacing: 5px;
+    font-size: 13px;
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-size: 55px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+h1 span {
+    color: #35d9ff;
+}
+
+.description {
+    color: #b6c8dc;
+    font-size: 18px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+button {
+    background: #16bce8;
+    color: #07111f;
+    border: none;
+    padding: 15px 32px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    background: white;
+    transform: translateY(-3px);
+}
+
+@media (max-width: 650px) {
+    header {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    nav a {
+        margin: 0 7px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+}
+/* SMART CAMPUS FEATURES */
+
+#features {
+    padding: 80px 8%;
+    background: #07172d;
+    color: white;
+    text-align: center;
+}
+
+.section-heading h2 {
+    font-size: 36px;
+    margin: 15px 0;
+}
+
+.section-heading h2 span {
+    color: #35e0ef;
+}
+
+.features-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+    margin-top: 45px;
+}
+
+.feature-card {
+    background: linear-gradient(145deg, #102b4b, #07172d);
+    border: 1px solid #176080;
+    border-radius: 16px;
+    padding: 30px 20px;
+    transition: 0.3s;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    border-color: #35e0ef;
+    box-shadow: 0 0 20px #087e9a;
+}
+
+.feature-card h3 {
+    color: #35e0ef;
+    margin-bottom: 15px;
+}
+
+.feature-card p {
+    color: #c4d5e8;
+    line-height: 1.6;
+}
+
+@media (max-width: 650px) {
+    .features-container {
+        grid-template-columns: 1fr;
+    }
+}
+.show-password-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 12px;
+    cursor: pointer;
+}
+
+.show-password-label input {
+    width: auto;
+    margin: 0;
+    accent-color: #35e0ef;
+}
+.register-card .show-password-label {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    width: 100%;
+}
+
+.register-card .show-password-label input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    flex: 0 0 18px;
+}

@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Registration | Smart AI Campus</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+    font-family:Inter,sans-serif;
+    min-height:100vh;
+    color:white;
+    background:
+    linear-gradient(90deg,rgba(5,8,22,.96),rgba(5,8,22,.75)),
+    url("https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1800&q=85") center/cover fixed;
+}
+
+a{text-decoration:none;color:inherit}
+
+.navbar{
+    height:75px;
+    padding:0 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:#080b18bb;
+    backdrop-filter:blur(15px);
+    border-bottom:1px solid #ffffff15;
+}
+
+.logo{display:flex;align-items:center;gap:12px}
+
+.logo-icon{
+    width:43px;height:43px;
+    display:grid;place-items:center;
+    border-radius:13px;
+    font-size:23px;
+    background:linear-gradient(135deg,#8b5cf6,#2563eb);
+}
+
+.logo h2{font-size:17px}
+.logo h2 span{color:#a78bfa}
+.logo small{display:block;color:#9ba6bb;font-size:9px;margin-top:4px}
+
+.home-link{font-size:12px;color:#c4b5fd}
+
+.main{
+    min-height:calc(100vh - 125px);
+    display:grid;
+    grid-template-columns:1fr 520px;
+    gap:60px;
+    align-items:center;
+    width:min(1150px,90%);
+    margin:auto;
+    padding:50px 0;
+}
+
+.welcome{max-width:550px}
+
+.tag{
+    color:#c4b5fd;
+    font-size:11px;
+    letter-spacing:2px;
+    font-weight:700;
+    margin-bottom:22px;
+}
+
+.welcome h1{
+    font-size:clamp(38px,5vw,60px);
+    line-height:1.12;
+    letter-spacing:-2px;
+}
+
+.welcome h1 span{
+    background:linear-gradient(90deg,#a78bfa,#60a5fa);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+
+.welcome p{
+    color:#b0bad0;
+    font-size:14px;
+    line-height:1.9;
+    margin:22px 0 30px;
+}
+
+.points{display:grid;gap:17px}
+
+.point{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#dce3f3;
+    font-size:13px;
+}
+
+.tick{
+    width:27px;height:27px;
+    border-radius:9px;
+    background:#8b5cf633;
+    color:#c4b5fd;
+    display:grid;
+    place-items:center;
+}
+
+.register-card{
+    padding:35px;
+    border-radius:22px;
+    background:rgba(15,20,39,.91);
+    border:1px solid #a78bfa55;
+    backdrop-filter:blur(22px);
+    box-shadow:0 25px 80px #0008,0 0 35px #8b5cf622;
+}
+
+.card-heading{text-align:center;margin-bottom:25px}
+
+.card-icon{
+    width:55px;height:55px;
+    display:grid;place-items:center;
+    border-radius:17px;
+    margin:0 auto 15px;
+    background:linear-gradient(135deg,#8b5cf6,#4f46e5);
+    font-size:25px;
+}
+
+.card-heading h2{font-size:24px}
+.card-heading p{
+    color:#9da8bd;
+    font-size:12px;
+    margin-top:8px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0 13px;
+}
+
+.field{margin-bottom:15px}
+
+.field.full{grid-column:1/-1}
+
+label{
+    display:block;
+    color:#dce3f3;
+    font-size:11px;
+    margin-bottom:8px;
+}
+
+input,select{
+    width:100%;
+    padding:13px;
+    background:#080d1c;
+    color:white;
+    border:1px solid #ffffff20;
+    border-radius:9px;
+    outline:none;
+    font-family:inherit;
+    font-size:12px;
+}
+
+input:focus,select:focus{
+    border-color:#9b7aff;
+    box-shadow:0 0 0 3px #8b5cf622;
+}
+
+input::placeholder{color:#66738a}
+
+.password-wrap{position:relative}
+
+.password-wrap input{padding-right:60px}
+
+.show-btn{
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    background:none;
+    border:0;
+    color:#a78bfa;
+    font-size:10px;
+    cursor:pointer;
+}
+
+.terms{
+    display:flex;
+    gap:9px;
+    align-items:flex-start;
+    color:#aab4c8;
+    font-size:10px;
+    line-height:1.7;
+    margin:5px 0 20px;
+}
+
+.terms input{
+    width:14px;
+    height:14px;
+    margin-top:2px;
+    accent-color:#8b5cf6;
+}
+
+.terms label{margin:0;color:#aab4c8}
+
+.terms a{color:#c4b5fd}
+
+.submit{
+    width:100%;
+    padding:15px;
+    border:0;
+    border-radius:10px;
+    color:white;
+    font-size:13px;
+    font-weight:700;
+    background:linear-gradient(100deg,#8b5cf6,#4f46e5);
+    cursor:pointer;
+    box-shadow:0 8px 25px #6d4bce44;
+    transition:.3s;
+}
+
+.submit:hover{
+    transform:translateY(-2px);
+    filter:brightness(1.12);
+}
+
+.submit:disabled{opacity:.6;cursor:wait}
+
+.message{
+    min-height:18px;
+    text-align:center;
+    font-size:11px;
+    margin-top:12px;
+    color:#fca5a5;
+}
+
+.login-link{
+    text-align:center;
+    color:#aab4c8;
+    font-size:11px;
+    margin-top:20px;
+}
+
+.login-link a{color:#c4b5fd;font-weight:700}
+
+.security{
+    text-align:center;
+    color:#77839a;
+    font-size:10px;
+    margin-top:20px;
+}
+
+footer{
+    text-align:center;
+    padding:20px;
+    border-top:1px solid #ffffff12;
+    color:#78849b;
+    font-size:10px;
+}
+
+@media(max-width:900px){
+    .main{
+        grid-template-columns:1fr;
+        max-width:520px;
+        gap:35px;
+    }
+    .welcome{text-align:center}
+    .points{display:none}
+}
+
+@media(max-width:550px){
+    .register-card{padding:25px 18px}
+    .form-grid{grid-template-columns:1fr}
+    .field.full{grid-column:auto}
+    .navbar{padding:0 5%}
+    .welcome h1{font-size:38px}
+}
+</style>
+</head>
+
+<body>
+
+<header class="navbar">
+
+<a href="../index.html" class="logo">
+<div class="logo-icon">✦</div>
+<div>
+<h2>SMART AI <span>CAMPUS</span></h2>
+<small>RAJALAKSHMI ENGINEERING COLLEGE</small>
+</div>
+</a>
+
+<a href="../index.html" class="home-link">← Back to Home</a>
+
+</header>
+
+<main class="main">
+
+<section class="welcome">
+
+<div class="tag">JOIN THE DIGITAL CAMPUS</div>
+
+<h1>Create Your <span>Smart Campus</span> Account.</h1>
+
+<p>
+Register to access your digital student identity,
+campus wallet, attendance, classroom services,
+smart cafeteria and student support system.
+</p>
+
+<div class="points">
+<div class="point"><span class="tick">✓</span> Personalised student dashboard</div>
+<div class="point"><span class="tick">✓</span> Digital campus identity</div>
+<div class="point"><span class="tick">✓</span> Connected student services</div>
+</div>
+
+</section>
+
+<section class="register-card">
+
+<div class="card-heading">
+
+<div class="card-icon">♙</div>
+
+<h2>Create Account</h2>
+
+<p>Enter your details to register as a student</p>
+
+</div>
+
+<form id="registerForm">
+
+<div class="form-grid">
+
+<div class="field full">
+<label for="fullName">Full Name</label>
+<input type="text" id="fullName" placeholder="Enter your full name" required>
+</div>
+
+<div class="field">
+<label for="studentId">Student ID</label>
+<input type="text" id="studentId" placeholder="REC2026001" required>
+</div>
+
+<div class="field">
+<label for="email">College Email</label>
+<input type="email" id="email" placeholder="student@rec.ac.in" required>
+</div>
+
+<div class="field full">
+<label for="password">Create Password</label>
+
+<div class="password-wrap">
+<input type="password" id="password" placeholder="Create a strong password" minlength="8" required>
+<button type="button" class="show-btn" id="showPassword">Show</button>
+</div>
+</div>
+
+<div class="field full">
+<label for="confirmPassword">Confirm Password</label>
+
+<div class="password-wrap">
+<input type="password" id="confirmPassword" placeholder="Re-enter your password" required>
+<button type="button" class="show-btn" id="showConfirm">Show</button>
+</div>
+</div>
+
+</div>
+
+<div class="terms">
+<input type="checkbox" id="terms" required>
+<label for="terms">
+I agree to the registration terms and confirm that the information provided is accurate.
+</label>
+</div>
+
+<button type="submit" class="submit" id="submitBtn">
+Create Student Account →
+</button>
+
+<div class="message" id="message"></div>
+
+</form>
+
+<div class="login-link">
+Already have an account?
+<a href="login.html">Sign In</a>
+</div>
+
+<div class="security">🔒 Your password is securely processed.</div>
+
+</section>
+
+</main>
+
+<footer>
+© 2026 Smart AI Campus · Academic Project Prototype
+</footer>
+
+<script>
+
+const form = document.getElementById("registerForm");
+const message = document.getElementById("message");
+const button = document.getElementById("submitBtn");
+
+document.getElementById("showPassword").addEventListener("click",function(){
+    const input = document.getElementById("password");
+    const visible = input.type === "password";
+    input.type = visible ? "text" : "password";
+    this.textContent = visible ? "Hide" : "Show";
+});
+
+document.getElementById("showConfirm").addEventListener("click",function(){
+    const input = document.getElementById("confirmPassword");
+    const visible = input.type === "password";
+    input.type = visible ? "text" : "password";
+    this.textContent = visible ? "Hide" : "Show";
+});
+
+form.addEventListener("submit",async function(e){
+
+    e.preventDefault();
+
+    const full_name = document.getElementById("fullName").value.trim();
+    const student_id = document.getElementById("studentId").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirmPassword").value;
+
+    message.style.color = "#fca5a5";
+
+    if(password.length < 8){
+        message.textContent = "Password must contain at least 8 characters.";
+        return;
+    }
+
+    if(password !== confirmPassword){
+        message.textContent = "Passwords do not match.";
+        return;
+    }
+
+    if(!document.getElementById("terms").checked){
+        message.textContent = "Please accept the registration terms.";
+        return;
+    }
+
+    button.disabled = true;
+    button.textContent = "Creating Account...";
+    message.textContent = "";
+
+    try{
+
+        const response = await fetch("/api/register",{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            body:JSON.stringify({
+                full_name,
+                student_id,
+                email,
+                password
+            })
+        });
+
+        const data = await response.json();
+
+        if(!response.ok){
+            throw new Error(data.message || "Registration failed.");
+        }
+
+        message.style.color = "#86efac";
+        message.textContent = "Registration successful! Redirecting to login...";
+
+        form.reset();
+
+        setTimeout(()=>{
+            window.location.href = "login.html";
+        },1500);
+
+    }catch(error){
+
+        message.textContent = error.message || "Unable to connect to server.";
+
+    }finally{
+
+        button.disabled = false;
+        button.textContent = "Create Student Account →";
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

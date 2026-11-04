@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications | Smart AI Campus</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: #080b18;
+    color: white;
+}
+
+.sidebar {
+    width: 255px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    padding: 25px 18px;
+    background: #101429;
+    border-right: 1px solid #252c49;
+    overflow-y: auto;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: 800;
+    color: #a78bfa;
+    margin-bottom: 35px;
+}
+
+.logo span {
+    color: white;
+}
+
+.section-title {
+    color: #737d9d;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    margin: 25px 12px 12px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 14px;
+    margin: 5px 0;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #aab2cc;
+    font-size: 13px;
+    transition: .3s;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background: linear-gradient(90deg, #6d45d9, #4930a3);
+    color: white;
+}
+
+.main {
+    margin-left: 255px;
+    padding: 30px;
+}
+
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.topbar h1 {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.topbar p {
+    color: #929bb8;
+    font-size: 12px;
+    margin-top: 7px;
+}
+
+.admin {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #151b32;
+    border: 1px solid #292f4d;
+    padding: 10px 14px;
+    border-radius: 12px;
+}
+
+.avatar {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: linear-gradient(135deg,#8b5cf6,#4f46e5);
+    font-weight: 800;
+}
+
+.admin strong {
+    font-size: 12px;
+}
+
+.admin small {
+    display: block;
+    color: #929bb8;
+    font-size: 10px;
+    margin-top: 4px;
+}
+
+.hero {
+    padding: 27px;
+    border-radius: 18px;
+    background: linear-gradient(110deg,#332069,#1b2050,#151b38);
+    border: 1px solid #55429c;
+    margin-bottom: 22px;
+}
+
+.hero h2 {
+    font-size: 21px;
+    margin-bottom: 9px;
+}
+
+.hero p {
+    color: #d0c8f4;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.stat-card {
+    background: #11172d;
+    border: 1px solid #252c49;
+    border-radius: 15px;
+    padding: 20px;
+}
+
+.stat-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    background: #6844c52b;
+    border-radius: 12px;
+    font-size: 20px;
+}
+
+.stat-card p {
+    color: #929bb8;
+    font-size: 11px;
+    margin-top: 15px;
+}
+
+.stat-card h2 {
+    font-size: 26px;
+    margin-top: 7px;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.panel {
+    background: #11172d;
+    border: 1px solid #252c49;
+    border-radius: 17px;
+    padding: 22px;
+    min-width: 0;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.panel-header h3 {
+    font-size: 14px;
+}
+
+.panel-header span {
+    color: #929bb8;
+    font-size: 10px;
+}
+
+.notice {
+    display: flex;
+    gap: 13px;
+    padding: 17px 0;
+    border-bottom: 1px solid #252c49;
+    cursor: pointer;
+}
+
+.notice:last-child {
+    border-bottom: none;
+}
+
+.notice:hover {
+    background: #171d37;
+}
+
+.notice-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: #6844c52b;
+    font-size: 19px;
+}
+
+.notice-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.notice-content h4 {
+    font-size: 12px;
+    margin-bottom: 7px;
+}
+
+.notice-content p {
+    color: #929bb8;
+    font-size: 11px;
+    line-height: 1.6;
+}
+
+.notice-content small {
+    display: block;
+    color: #7883a4;
+    font-size: 10px;
+    margin-top: 8px;
+}
+
+.unread-dot {
+    width: 8px;
+    height: 8px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #a78bfa;
+    margin-top: 5px;
+}
+
+.notice.read .unread-dot {
+    background: transparent;
+}
+
+.notice.read .notice-content h4 {
+    color: #a5aec9;
+    font-weight: 500;
+}
+
+.category {
+    display: inline-block;
+    padding: 5px 8px;
+    margin-bottom: 8px;
+    border-radius: 20px;
+    background: #30245b;
+    color: #c4b5fd;
+    font-size: 9px;
+}
+
+.notice-form input,
+.notice-form textarea,
+.notice-form select {
+    width: 100%;
+    background: #0b1023;
+    border: 1px solid #303957;
+    border-radius: 9px;
+    padding: 12px;
+    color: white;
+    outline: none;
+    margin-bottom: 12px;
+    font-size: 11px;
+}
+
+.notice-form textarea {
+    resize: vertical;
+    min-height: 90px;
+}
+
+.notice-form option {
+    background: #11172d;
+}
+
+.button {
+    border: none;
+    border-radius: 9px;
+    padding: 11px 15px;
+    cursor: pointer;
+    font-size: 10px;
+    font-weight: 700;
+    transition: .3s;
+}
+
+.primary {
+    background: linear-gradient(90deg,#8b5cf6,#6544ce);
+    color: white;
+}
+
+.secondary {
+    background: #202743;
+    color: #d7dcf0;
+    border: 1px solid #343c5d;
+}
+
+.danger {
+    background: #4b2934;
+    color: #fda4af;
+}
+
+.button:hover {
+    transform: translateY(-2px);
+    opacity: .9;
+}
+
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+}
+
+.toolbar input,
+.toolbar select {
+    background: #0b1023;
+    border: 1px solid #303957;
+    border-radius: 9px;
+    padding: 11px;
+    color: white;
+    outline: none;
+    font-size: 11px;
+}
+
+.toolbar input {
+    flex: 1;
+    min-width: 170px;
+}
+
+.toolbar select {
+    min-width: 140px;
+}
+
+.empty {
+    text-align: center;
+    padding: 35px;
+    color: #929bb8;
+    font-size: 12px;
+}
+
+.demo-note {
+    margin-top: 16px;
+    padding: 13px;
+    background: #30245b55;
+    border: 1px solid #514080;
+    border-radius: 10px;
+    color: #c4b5fd;
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+.footer {
+    text-align: center;
+    color: #626c8d;
+    font-size: 10px;
+    padding: 30px 0;
+}
+
+@media(max-width:1050px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:850px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 18px;
+    }
+}
+
+@media(max-width:550px) {
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .topbar h1 {
+        font-size: 19px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+
+    <div class="logo">✦ SMART<span>CAMPUS</span></div>
+
+    <div class="section-title">ADMINISTRATION</div>
+
+    <a href="admin-dashboard.html" class="nav-link">▦ Admin Dashboard</a>
+    <a href="student-management.html" class="nav-link">👥 Student Management</a>
+    <a href="entry-monitoring.html" class="nav-link">🚪 Entry Monitoring</a>
+    <a href="reports.html" class="nav-link">📊 Reports & Analytics</a>
+
+    <div class="section-title">CAMPUS MANAGEMENT</div>
+
+    <a href="attendance.html" class="nav-link">📅 Attendance</a>
+    <a href="classroom.html" class="nav-link">🏫 Classrooms</a>
+    <a href="cafeteria.html" class="nav-link">🍽️ Cafeteria</a>
+    <a href="notifications.html" class="nav-link active">🔔 Notifications</a>
+
+    <div style="margin-top:30px;border-top:1px solid #252c49;padding-top:15px">
+        <a href="../index.html" class="nav-link">🏠 Back to Home</a>
+        <a href="#" class="nav-link" onclick="logout()">↪ Logout</a>
+    </div>
+
+</aside>
+
+<main class="main">
+
+    <div class="topbar">
+        <div>
+            <h1>Notification Centre</h1>
+            <p>Stay updated with important campus announcements.</p>
+        </div>
+
+        <div class="admin">
+            <div class="avatar">A</div>
+            <div>
+                <strong>Campus Admin</strong>
+                <small>Administrator</small>
+            </div>
+        </div>
+    </div>
+
+    <section class="hero">
+        <h2>Campus Communication Hub 🔔</h2>
+        <p>
+            A centralised notification centre for academic announcements,
+            campus events, student updates and important emergency messages.
+        </p>
+    </section>
+
+    <section class="stats">
+
+        <div class="stat-card">
+            <div class="stat-icon">🔔</div>
+            <p>Total Notifications</p>
+            <h2 id="totalCount">0</h2>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">🟣</div>
+            <p>Unread Notifications</p>
+            <h2 id="unreadCount">0</h2>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">📢</div>
+            <p>Announcements</p>
+            <h2 id="announcementCount">0</h2>
+        </div>
+
+    </section>
+
+    <section class="content-grid">
+
+        <div class="panel">
+
+            <div class="panel-header">
+                <h3>Campus Notifications</h3>
+                <span>Latest updates</span>
+            </div>
+
+            <div class="toolbar">
+
+                <input
+                    id="searchInput"
+                    type="text"
+                    placeholder="Search notifications..."
+                    oninput="renderNotifications()"
+                >
+
+                <select id="categoryFilter" onchange="renderNotifications()">
+                    <option value="all">All Categories</option>
+                    <option value="Academic">Academic</option>
+                    <option value="Events">Events</option>
+                    <option value="General">General</option>
+                    <option value="Emergency">Emergency</option>
+                </select>
+
+                <select id="readFilter" onchange="renderNotifications()">
+                    <option value="all">All Status</option>
+                    <option value="unread">Unread</option>
+                    <option value="read">Read</option>
+                </select>
+
+            </div>
+
+            <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px">
+                <button class="button secondary" onclick="markAllRead()">
+                    ✓ Mark All Read
+                </button>
+
+                <button class="button danger" onclick="clearRead()">
+                    Delete Read
+                </button>
+            </div>
+
+            <div id="notificationList"></div>
+
+        </div>
+
+        <div class="panel">
+
+            <div class="panel-header">
+                <h3>Create Announcement</h3>
+                <span>Admin tool · Demo</span>
+            </div>
+
+            <form class="notice-form" id="announcementForm">
+
+                <input
+                    type="text"
+                    id="noticeTitle"
+                    placeholder="Announcement title"
+                    required
+                >
+
+                <select id="noticeCategory" required>
+                    <option value="">Select category</option>
+                    <option value="Academic">Academic</option>
+                    <option value="Events">Events</option>
+                    <option value="General">General</option>
+                    <option value="Emergency">Emergency</option>
+                </select>
+
+                <textarea
+                    id="noticeMessage"
+                    placeholder="Write your announcement..."
+                    required
+                ></textarea>
+
+                <button class="button primary" type="submit" style="width:100%">
+                    + Publish Announcement
+                </button>
+
+            </form>
+
+            <div class="demo-note">
+                Announcements created here are saved in this browser only.
+                They are not sent to other students or stored in MySQL yet.
+            </div>
+
+        </div>
+
+    </section>
+
+    <div class="footer">
+        SMART AI CAMPUS © 2026 · NOTIFICATION CENTRE
+    </div>
+
+</main>
+
+<script>
+
+const storageKey = "campusNotifications";
+
+const defaultNotifications = [
+    {
+        id: 1,
+        title: "Semester Examination Schedule",
+        message: "The semester examination timetable will be announced through the academic department.",
+        category: "Academic",
+        date: "Today",
+        read: false
+    },
+    {
+        id: 2,
+        title: "Campus Technology Fest",
+        message: "Students are invited to participate in upcoming technology and innovation events.",
+        category: "Events",
+        date: "Today",
+        read: false
+    },
+    {
+        id: 3,
+        title: "Library Operating Hours",
+        message: "Please check the library schedule before planning your study sessions.",
+        category: "General",
+        date: "Yesterday",
+        read: true
+    },
+    {
+        id: 4,
+        title: "Important Campus Safety Notice",
+        message: "Students should follow campus safety guidelines and contact authorised staff during emergencies.",
+        category: "Emergency",
+        date: "Yesterday",
+        read: false
+    },
+    {
+        id: 5,
+        title: "Internal Assessment Update",
+        message: "Students should check their department announcements for internal assessment updates.",
+        category: "Academic",
+        date: "2 days ago",
+        read: true
+    }
+];
+
+let notifications;
+
+try {
+    const saved = localStorage.getItem(storageKey);
+    notifications = saved ? JSON.parse(saved) : defaultNotifications;
+    if (!Array.isArray(notifications)) notifications = defaultNotifications;
+} catch (error) {
+    notifications = defaultNotifications;
+}
+
+function saveNotifications() {
+    localStorage.setItem(storageKey, JSON.stringify(notifications));
+}
+
+function getIcon(category) {
+    const icons = {
+        Academic: "📚",
+        Events: "🎉",
+        General: "📢",
+        Emergency: "🚨"
+    };
+
+    return icons[category] || "🔔";
+}
+
+function updateStats() {
+
+    document.getElementById("totalCount").textContent =
+        notifications.length;
+
+    document.getElementById("unreadCount").textContent =
+        notifications.filter(n => !n.read).length;
+
+    document.getElementById("announcementCount").textContent =
+        notifications.filter(n => n.category !== "General").length;
+}
+
+function renderNotifications() {
+
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const category = document.getElementById("categoryFilter").value;
+    const readStatus = document.getElementById("readFilter").value;
+
+    const filtered = notifications.filter(n => {
+
+        const matchesSearch =
+            n.title.toLowerCase().includes(search) ||
+            n.message.toLowerCase().includes(search);
+
+        const matchesCategory =
+            category === "all" || n.category === category;
+
+        const matchesRead =
+            readStatus === "all" ||
+            (readStatus === "read" && n.read) ||
+            (readStatus === "unread" && !n.read);
+
+        return matchesSearch && matchesCategory && matchesRead;
+    });
+
+    const list = document.getElementById("notificationList");
+
+    if (filtered.length === 0) {
+        list.innerHTML = `
+            <div class="empty">
+                No notifications found.
+            </div>
+        `;
+    } else {
+
+        list.innerHTML = filtered.map(n => `
+            <div class="notice ${n.read ? "read" : ""}"
+                 onclick="markRead(${Number(n.id)})">
+
+                <div class="notice-icon">${getIcon(n.category)}</div>
+
+                <div class="notice-content">
+
+                    <span class="category">${escapeHTML(n.category)}</span>
+
+                    <h4>${escapeHTML(n.title)}</h4>
+
+                    <p>${escapeHTML(n.message)}</p>
+
+                    <small>${escapeHTML(n.date)}</small>
+
+                    <div style="display:flex;gap:8px;margin-top:10px">
+                        <button class="button secondary"
+                            onclick="event.stopPropagation();markRead(${Number(n.id)})">
+                            ${n.read ? "Read" : "Mark Read"}
+                        </button>
+
+                        <button class="button danger"
+                            onclick="event.stopPropagation();deleteNotification(${Number(n.id)})">
+                            Delete
+                        </button>
+                    </div>
+
+                </div>
+
+                <span class="unread-dot"></span>
+
+            </div>
+        `).join("");
+    }
+
+    updateStats();
+}
+
+function markRead(id) {
+
+    const item = notifications.find(n => n.id === id);
+
+    if (item) {
+        item.read = true;
+        saveNotifications();
+        renderNotifications();
+    }
+}
+
+function markAllRead() {
+
+    notifications.forEach(n => n.read = true);
+
+    saveNotifications();
+    renderNotifications();
+}
+
+function deleteNotification(id) {
+
+    notifications = notifications.filter(n => n.id !== id);
+
+    saveNotifications();
+    renderNotifications();
+}
+
+function clearRead() {
+
+    notifications = notifications.filter(n => !n.read);
+
+    saveNotifications();
+    renderNotifications();
+}
+
+document.getElementById("announcementForm").addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    const title = document.getElementById("noticeTitle").value.trim();
+    const category = document.getElementById("noticeCategory").value;
+    const message = document.getElementById("noticeMessage").value.trim();
+
+    if (!title || !category || !message) {
+        alert("Please complete all announcement fields.");
+        return;
+    }
+
+    notifications.unshift({
+        id: Date.now(),
+        title,
+        message,
+        category,
+        date: new Date().toLocaleString(),
+        read: false
+    });
+
+    saveNotifications();
+
+    this.reset();
+
+    document.getElementById("searchInput").value = "";
+    document.getElementById("categoryFilter").value = "all";
+    document.getElementById("readFilter").value = "all";
+
+    renderNotifications();
+
+    alert("Announcement created in this browser successfully!");
+});
+
+function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[char]);
+}
+
+function logout() {
+    if (confirm("Are you sure you want to logout?")) {
+        sessionStorage.clear();
+        location.href = "../index.html";
+    }
+}
+
+renderNotifications();
+
+</script>
+
+</body>
+</html>
